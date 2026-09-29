@@ -2,12 +2,23 @@ import "./index.css";
 import { Composition } from "remotion";
 import { HelloWorld } from "./HelloWorld";
 import { Logo } from "./HelloWorld/Logo";
+import { SalesLinks } from "./SalesLinks/SalesLinks";
 
 // Each <Composition> is an entry in the sidebar!
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Вертикальный ролик для смартфона: 1080×1920, 30 сек */}
+      <Composition
+        id="SalesLinks"
+        component={SalesLinks}
+        durationInFrames={900}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+
       <Composition
         // You can take the "id" to render a video:
         // npx remotion render HelloWorld
