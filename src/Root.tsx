@@ -3,12 +3,23 @@ import { Composition } from "remotion";
 import { HelloWorld } from "./HelloWorld";
 import { Logo } from "./HelloWorld/Logo";
 import { AnalyticPro } from "./AnalyticPro/AnalyticPro";
+import { STORY_DURATION, Story } from "./Story/Story";
 
 // Each <Composition> is an entry in the sidebar!
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Сценарий «Пиво без чипсов»: 1080×1920, ~63 сек */}
+      <Composition
+        id="Story"
+        component={Story}
+        durationInFrames={STORY_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+
       {/* Вертикальный ролик для смартфона: 1080×1920, 30 сек */}
       <Composition
         id="AnalyticPro"
