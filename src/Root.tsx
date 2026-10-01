@@ -1,8 +1,9 @@
 import "./index.css";
-import { Composition } from "remotion";
+import { Composition, Still } from "remotion";
 import { HelloWorld } from "./HelloWorld";
 import { Logo } from "./HelloWorld/Logo";
 import { AnalyticPro } from "./AnalyticPro/AnalyticPro";
+import { CoverA, CoverB } from "./Story/Cover";
 import { STORY_DURATION, Story } from "./Story/Story";
 
 // Each <Composition> is an entry in the sidebar!
@@ -10,6 +11,10 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Обложки для Reels / VK Клипов */}
+      <Still id="CoverA" component={CoverA} width={1080} height={1920} />
+      <Still id="CoverB" component={CoverB} width={1080} height={1920} />
+
       {/* Сценарий «Пиво без чипсов»: 1080×1920, ~63 сек */}
       <Composition
         id="Story"

@@ -15,7 +15,7 @@ export type SceneProps = { cue: number[] };
 
 // ---------- Иллюстрации ----------
 
-const Beer: React.FC<{ scale?: number }> = ({ scale = 1 }) => (
+export const Beer: React.FC<{ scale?: number }> = ({ scale = 1 }) => (
   <svg width={90 * scale} height={240 * scale} viewBox="0 0 90 240">
     <rect
       x={33}
@@ -55,7 +55,7 @@ const Beer: React.FC<{ scale?: number }> = ({ scale = 1 }) => (
   </svg>
 );
 
-const Chips: React.FC<{ scale?: number }> = ({ scale = 1 }) => (
+export const Chips: React.FC<{ scale?: number }> = ({ scale = 1 }) => (
   <svg width={140 * scale} height={190 * scale} viewBox="0 0 140 190">
     <path
       d="M10 12 L130 12 L122 95 L130 178 L10 178 L18 95 Z"
