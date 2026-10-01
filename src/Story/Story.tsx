@@ -10,6 +10,7 @@ import {
 import { Background, C, ProgressBar, SANS, Scene, clamp } from "../brand";
 import { Blind, Checkout, Receipts, SceneProps } from "./ScenesA";
 import { Final, OnlyExport, Report, Types } from "./ScenesB";
+import { CoverA } from "./Cover";
 import voice from "./voice.json";
 
 type Line = {
@@ -129,6 +130,10 @@ export const Story: React.FC = () => {
         </Sequence>
       ))}
       <ProgressBar />
+      {/* Обложка A — первым кадром: её берут как превью мессенджеры */}
+      <Sequence durationInFrames={1}>
+        <CoverA />
+      </Sequence>
     </AbsoluteFill>
   );
 };
