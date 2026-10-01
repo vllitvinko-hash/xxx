@@ -10,7 +10,7 @@ import {
 import { C, MONO, SANS, Title, clamp } from "../brand";
 import { BLIND, CHECKOUT, RECEIPTS } from "./content";
 
-// cue — локальные кадры начала реплик озвучки в сцене
+// cue — локальные кадры начала субтитров в сцене
 export type SceneProps = { cue: number[] };
 
 // ---------- Иллюстрации ----------

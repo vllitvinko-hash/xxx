@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  AbsoluteFill,
-  Audio,
-  Sequence,
-  interpolate,
-  staticFile,
-  useCurrentFrame,
-} from "remotion";
+import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
 import { Background, C, ProgressBar, SANS, Scene, clamp } from "../brand";
 import { Blind, Checkout, Receipts, SceneProps } from "./ScenesA";
 import { Final, OnlyExport, Report, Types } from "./ScenesB";
 import { CoverA } from "./Cover";
-import voice from "./voice.json";
+import captions from "./captions.json";
 
 type Line = {
   id: string;
@@ -21,8 +14,8 @@ type Line = {
   text: string;
 };
 
-const SCENES = voice.scenes;
-const LINES = voice.lines as Line[];
+const SCENES = captions.scenes;
+const LINES = captions.lines as Line[];
 export const STORY_DURATION = SCENES[SCENES.length - 1];
 
 const SCENE_COMPONENTS: React.FC<SceneProps>[] = [
@@ -124,11 +117,6 @@ export const Story: React.FC = () => {
         );
       })}
       <Subtitles />
-      {LINES.map((l) => (
-        <Sequence key={l.id} from={l.from} layout="none">
-          <Audio src={staticFile(`story/${l.id}.wav`)} />
-        </Sequence>
-      ))}
       <ProgressBar />
       {/* Обложка A — первым кадром: её берут как превью мессенджеры */}
       <Sequence durationInFrames={1}>

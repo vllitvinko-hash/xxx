@@ -1,12 +1,10 @@
 import React from "react";
 import {
   AbsoluteFill,
-  Audio,
   Easing,
   Sequence,
   interpolate,
   spring,
-  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -708,29 +706,6 @@ const Cta: React.FC = () => {
   );
 };
 
-// Озвучка: файлы в public/voice, старт каждой фразы — кадр её сцены
-const VOICE: [string, number][] = [
-  ["hook", 2],
-  ["planA", 92],
-  ["planB", 172],
-  ["planC", 252],
-  ["case1", 332],
-  ["case2", 432],
-  ["case3", 532],
-  ["stats", 634],
-  ["cta", 756],
-];
-
-const Voiceover: React.FC = () => (
-  <>
-    {VOICE.map(([name, from]) => (
-      <Sequence key={name} from={from} layout="none">
-        <Audio src={staticFile(`voice/${name}.wav`)} />
-      </Sequence>
-    ))}
-  </>
-);
-
 // ---------- Сборка ----------
 const len = (r: readonly [number, number]) => r[1] - r[0];
 
@@ -760,7 +735,6 @@ export const AnalyticPro: React.FC = () => {
         <Cta />
       </Sequence>
       <ProgressBar />
-      <Voiceover />
     </AbsoluteFill>
   );
 };
