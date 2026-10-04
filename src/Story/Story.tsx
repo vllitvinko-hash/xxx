@@ -27,6 +27,36 @@ const SCENES = captions.scenes;
 const LINES = captions.lines as Line[];
 export const STORY_DURATION = SCENES[SCENES.length - 1];
 
+// Музыка: тише под голосом, чуть громче в паузах, затухание в конце
+const MUSIC_UNDER_VOICE = 0.09;
+const MUSIC_IN_PAUSE = 0.24;
+const RAMP = 6; // кадров на подъём/спад громкости
+
+const musicVolume = (f: number) => {
+  // насколько сейчас «звучит голос» с учётом плавных переходов
+  let voice = 0;
+  for (const l of LINES) {
+    const v = Math.min(
+      interpolate(f, [l.from - RAMP, l.from], [0, 1], clamp),
+      interpolate(
+        f,
+        [l.from + l.frames, l.from + l.frames + RAMP],
+        [1, 0],
+        clamp,
+      ),
+    );
+    voice = Math.max(voice, v);
+  }
+  const base = MUSIC_IN_PAUSE + (MUSIC_UNDER_VOICE - MUSIC_IN_PAUSE) * voice;
+  const fadeOut = interpolate(
+    f,
+    [STORY_DURATION - 45, STORY_DURATION],
+    [1, 0],
+    clamp,
+  );
+  return base * fadeOut;
+};
+
 const SCENE_COMPONENTS: React.FC<SceneProps>[] = [
   Checkout,
   Blind,
@@ -138,6 +168,7 @@ export const Story: React.FC = () => {
         );
       })}
       <Subtitles />
+      <Audio src={staticFile("music/bed.mp3")} volume={musicVolume} />
       {LINES.map((l) => (
         <Sequence key={l.id} from={l.from} layout="none">
           <Audio src={staticFile(`voice/${l.id}.wav`)} />
