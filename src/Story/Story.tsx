@@ -1,5 +1,12 @@
 import React from "react";
-import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
+import {
+  AbsoluteFill,
+  Audio,
+  Sequence,
+  interpolate,
+  staticFile,
+  useCurrentFrame,
+} from "remotion";
 import { Background, C, ProgressBar, SANS, Scene, clamp } from "../brand";
 import { Blind, Checkout, Receipts, SceneProps } from "./ScenesA";
 import { Final, OnlyExport, Report, Types } from "./ScenesB";
@@ -12,6 +19,8 @@ type Line = {
   from: number;
   frames: number;
   text: string;
+  // кадры начала слов от начала фразы (из распознавания записи)
+  words?: number[] | null;
 };
 
 const SCENES = captions.scenes;
@@ -37,10 +46,13 @@ const Subtitles: React.FC = () => {
   if (!line) return null;
   const onDark = line.scene === SCENES.length - 2;
   const words = line.text.split(" ");
-  // время слова пропорционально его длине
+  const local = frame - line.from;
+  // время слова: по записи голоса, иначе пропорционально длине
   const total = words.reduce((s, w) => s + w.length + 1, 0);
-  const progress = ((frame - line.from) / line.frames) * total;
+  const progress = (local / line.frames) * total;
+  const isWord = (w: string) => /[A-Za-zА-Яа-яЁё0-9]/.test(w);
   let acc = 0;
+  let spoken = -1;
   // первая реплика видна сразу — без нарастания
   const appear =
     line.from === 0 ? 1 : interpolate(frame - line.from, [0, 4], [0, 1], clamp);
@@ -72,8 +84,17 @@ const Subtitles: React.FC = () => {
         {words.map((w, i) => {
           const start = acc;
           acc += w.length + 1;
-          const state =
-            progress >= acc ? "done" : progress >= start ? "now" : "next";
+          let state: "done" | "now" | "next";
+          if (line.words) {
+            if (isWord(w)) spoken++;
+            const idx = Math.max(spoken, 0);
+            const ws = line.words[idx];
+            const we = line.words[idx + 1] ?? line.frames;
+            state = local >= we ? "done" : local >= ws ? "now" : "next";
+          } else {
+            state =
+              progress >= acc ? "done" : progress >= start ? "now" : "next";
+          }
           const base = onDark ? C.ink : "#fff";
           return (
             <span
@@ -117,6 +138,11 @@ export const Story: React.FC = () => {
         );
       })}
       <Subtitles />
+      {LINES.map((l) => (
+        <Sequence key={l.id} from={l.from} layout="none">
+          <Audio src={staticFile(`voice/${l.id}.wav`)} />
+        </Sequence>
+      ))}
       <ProgressBar />
       {/* Обложка A — первым кадром: её берут как превью мессенджеры */}
       <Sequence durationInFrames={1}>
