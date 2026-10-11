@@ -4,6 +4,8 @@ import { HelloWorld } from "./HelloWorld";
 import { Logo } from "./HelloWorld/Logo";
 import { AnalyticPro } from "./AnalyticPro/AnalyticPro";
 import { CoverA, CoverB } from "./Story/Cover";
+import { ABC_DURATION, Abc } from "./Abc/Abc";
+import { AbcCover } from "./Abc/Cover";
 import { STORY_DURATION, Story } from "./Story/Story";
 
 // Each <Composition> is an entry in the sidebar!
@@ -11,6 +13,17 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Ролик про ABC-анализ и его превью */}
+      <Composition
+        id="Abc"
+        component={Abc}
+        durationInFrames={ABC_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Still id="AbcCover" component={AbcCover} width={1080} height={1920} />
+
       {/* Обложки для Reels / VK Клипов */}
       <Still id="CoverA" component={CoverA} width={1080} height={1920} />
       <Still id="CoverB" component={CoverB} width={1080} height={1920} />
