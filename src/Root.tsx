@@ -8,6 +8,8 @@ import { ABC_DURATION, Abc } from "./Abc/Abc";
 import { AbcCover } from "./Abc/Cover";
 import { XYZ_DURATION, Xyz } from "./Xyz/Xyz";
 import { XyzCover } from "./Xyz/Cover";
+import { WALMART_DURATION, Walmart } from "./Walmart/Walmart";
+import { WalmartCover } from "./Walmart/Cover";
 import { STORY_DURATION, Story } from "./Story/Story";
 
 // Each <Composition> is an entry in the sidebar!
@@ -15,6 +17,22 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Ролик «Пиво и подгузники» (по мотивам истории Walmart) и превью */}
+      <Composition
+        id="Walmart"
+        component={Walmart}
+        durationInFrames={WALMART_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Still
+        id="WalmartCover"
+        component={WalmartCover}
+        width={1080}
+        height={1920}
+      />
+
       {/* Ролик про XYZ-анализ и его превью */}
       <Composition
         id="Xyz"
