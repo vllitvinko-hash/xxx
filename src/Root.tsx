@@ -6,6 +6,8 @@ import { AnalyticPro } from "./AnalyticPro/AnalyticPro";
 import { CoverA, CoverB } from "./Story/Cover";
 import { ABC_DURATION, Abc } from "./Abc/Abc";
 import { AbcCover } from "./Abc/Cover";
+import { XYZ_DURATION, Xyz } from "./Xyz/Xyz";
+import { XyzCover } from "./Xyz/Cover";
 import { STORY_DURATION, Story } from "./Story/Story";
 
 // Each <Composition> is an entry in the sidebar!
@@ -13,6 +15,17 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Ролик про XYZ-анализ и его превью */}
+      <Composition
+        id="Xyz"
+        component={Xyz}
+        durationInFrames={XYZ_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Still id="XyzCover" component={XyzCover} width={1080} height={1920} />
+
       {/* Ролик про ABC-анализ и его превью */}
       <Composition
         id="Abc"
