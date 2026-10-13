@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Sequence } from "remotion";
+import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
 import { Background, ProgressBar, Scene } from "../brand";
 import { CaptionLine, MusicBed, Subtitles } from "../captioning";
 import { SceneProps } from "../Abc/ScenesA";
@@ -59,13 +59,17 @@ export const Cross: React.FC = () => {
       })}
       {/* тёмных сцен нет */}
       <Subtitles lines={LINES} darkScene={-1} />
-      {/* голоса пока нет — музыка ровная, без приглушения */}
       <MusicBed
         src="music/bed-xl.mp3"
         lines={LINES}
         duration={CROSS_DURATION}
-        ducking={false}
+        ducking
       />
+      {LINES.map((l) => (
+        <Sequence key={l.id} from={l.from} layout="none">
+          <Audio src={staticFile(`cross-voice/${l.id}.wav`)} />
+        </Sequence>
+      ))}
       <ProgressBar />
       {/* превью первым кадром — его берут мессенджеры */}
       <Sequence durationInFrames={1}>
