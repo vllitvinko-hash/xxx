@@ -18,7 +18,9 @@ export type CaptionLine = {
 export const Subtitles: React.FC<{
   lines: CaptionLine[];
   darkScene: number; // на этой сцене тёмный фон — субтитры инвертируются
-}> = ({ lines, darkScene }) => {
+  variant?: "brand" | "soft"; // soft — скруглённая плашка для иллюстрированного стиля
+}> = ({ lines, darkScene, variant = "brand" }) => {
+  const soft = variant === "soft";
   const frame = useCurrentFrame();
   const line = lines.find(
     (l) => frame >= l.from && frame < l.from + l.frames + 6,
@@ -51,8 +53,10 @@ export const Subtitles: React.FC<{
     >
       <div
         style={{
-          background: onDark ? C.paper : C.ink,
-          padding: "22px 30px",
+          background: soft ? "#fff" : onDark ? C.paper : C.ink,
+          padding: soft ? "22px 34px" : "22px 30px",
+          borderRadius: soft ? 32 : 0,
+          boxShadow: soft ? "0 18px 40px rgba(36,59,85,0.25)" : "none",
           textAlign: "center",
           fontFamily: SANS,
           fontWeight: 800,
@@ -75,13 +79,20 @@ export const Subtitles: React.FC<{
             state =
               progress >= acc ? "done" : progress >= start ? "now" : "next";
           }
-          const base = onDark ? C.ink : "#fff";
+          const base = soft ? "#243B55" : onDark ? C.ink : "#fff";
           return (
             <span
               key={i}
               style={{
-                color: state === "now" ? (onDark ? C.green : C.tag) : base,
-                opacity: state === "next" ? 0.45 : 1,
+                color:
+                  state === "now"
+                    ? soft
+                      ? "#EE6A57"
+                      : onDark
+                        ? C.green
+                        : C.tag
+                    : base,
+                opacity: state === "next" ? (soft ? 0.35 : 0.45) : 1,
               }}
             >
               {w}{" "}

@@ -6,7 +6,7 @@ import { F, FlatCroissant, FlatMuffin, Label } from "./Refs";
 const SANS = "Inter, sans-serif";
 
 // затемнение цвета для рукавов, чтобы руки читались на фоне туловища
-const shade = (hex: string, k = 0.82) => {
+export const shade = (hex: string, k = 0.82) => {
   const n = parseInt(hex.slice(1), 16);
   const c = [n >> 16, (n >> 8) & 255, n & 255].map((v) => Math.round(v * k));
   return `rgb(${c.join(",")})`;
@@ -341,7 +341,7 @@ export const Person: React.FC<{
   );
 };
 
-const Bubble: React.FC<{
+export const Bubble: React.FC<{
   x: number;
   y: number;
   w: number;
@@ -383,7 +383,7 @@ const Bubble: React.FC<{
   );
 };
 
-const Cafe: React.FC = () => (
+export const Cafe: React.FC = () => (
   <>
     <rect width={1080} height={1150} fill={F.wall} />
     <rect x={560} y={220} width={420} height={300} rx={18} fill={F.navy} />
@@ -420,7 +420,7 @@ const Cafe: React.FC = () => (
   </>
 );
 
-const Counter: React.FC = () => (
+export const Counter: React.FC = () => (
   <>
     <rect x={60} y={900} width={190} height={230} rx={20} fill="#9AA5B1" />
     <rect x={80} y={930} width={150} height={60} rx={10} fill={F.navy} />
@@ -498,7 +498,7 @@ export const Ref6Checkout: React.FC = () => (
 );
 
 // ============ 1.2 Дома: игрушка не работает ============
-const Toy: React.FC<{ x: number; y: number; s: number; on: boolean }> = ({
+export const Toy: React.FC<{ x: number; y: number; s: number; on: boolean }> = ({
   x,
   y,
   s,
@@ -678,15 +678,15 @@ export const Ref7Home: React.FC = () => (
 );
 
 // ============ Изометрия ============
-const makeIso =
+export const makeIso =
   (cx: number, cy: number) =>
   (x: number, y: number, z: number): [number, number] => [
     cx + (x - y) * 0.866,
     cy + (x + y) * 0.5 - z,
   ];
-const pp = (a: [number, number][]) => a.map((p) => p.join(",")).join(" ");
+export const pp = (a: [number, number][]) => a.map((p) => p.join(",")).join(" ");
 
-const Box: React.FC<{
+export const Box: React.FC<{
   iso: ReturnType<typeof makeIso>;
   x: number;
   y: number;
@@ -727,7 +727,7 @@ const Box: React.FC<{
   </g>
 );
 
-const Cyl: React.FC<{
+export const Cyl: React.FC<{
   iso: ReturnType<typeof makeIso>;
   x: number;
   y: number;
@@ -749,7 +749,7 @@ const Cyl: React.FC<{
   );
 };
 
-const Tag: React.FC<{
+export const Tag: React.FC<{
   x: number;
   y: number;
   text: string;

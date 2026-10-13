@@ -12,6 +12,8 @@ import { WALMART_DURATION, Walmart } from "./Walmart/Walmart";
 import { WalmartCover } from "./Walmart/Cover";
 import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
+import { CROSS2_DURATION, Cross2 } from "./Cross2/Cross2";
+import { Cross2Cover } from "./Cross2/Cover";
 import { RefClay, RefData, RefFlat, RefIso, RefType } from "./Refs/Refs";
 import {
   Ref10Bonus,
@@ -55,6 +57,22 @@ export const RemotionRoot: React.FC = () => {
       <Still id="Ref3Type" component={RefType} width={1080} height={1920} />
       <Still id="Ref4Data" component={RefData} width={1080} height={1920} />
       <Still id="Ref5Clay" component={RefClay} width={1080} height={1920} />
+
+      {/* Кросс-продажи в иллюстрированном стиле */}
+      <Composition
+        id="Cross2"
+        component={Cross2}
+        durationInFrames={CROSS2_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Still
+        id="Cross2Cover"
+        component={Cross2Cover}
+        width={1080}
+        height={1920}
+      />
 
       {/* Ролик про кросс-продажи и превью */}
       <Composition
