@@ -12,6 +12,7 @@ import { WALMART_DURATION, Walmart } from "./Walmart/Walmart";
 import { WalmartCover } from "./Walmart/Cover";
 import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
+import { RefClay, RefData, RefFlat, RefIso, RefType } from "./Refs/Refs";
 import { STORY_DURATION, Story } from "./Story/Story";
 
 // Each <Composition> is an entry in the sidebar!
@@ -19,6 +20,13 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Стилевые референсы */}
+      <Still id="Ref1Flat" component={RefFlat} width={1080} height={1920} />
+      <Still id="Ref2Iso" component={RefIso} width={1080} height={1920} />
+      <Still id="Ref3Type" component={RefType} width={1080} height={1920} />
+      <Still id="Ref4Data" component={RefData} width={1080} height={1920} />
+      <Still id="Ref5Clay" component={RefClay} width={1080} height={1920} />
+
       {/* Ролик про кросс-продажи и превью */}
       <Composition
         id="Cross"
