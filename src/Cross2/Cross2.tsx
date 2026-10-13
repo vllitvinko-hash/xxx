@@ -1,9 +1,11 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
 import { ProgressBar, Scene } from "../brand";
+import { SiteButton } from "./SiteButton";
 import { CaptionLine, MusicBed, Subtitles } from "../captioning";
 import { SceneProps } from "../Abc/ScenesA";
-import captions from "../Cross/captions.json";
+import { Channel } from "../Abc/ScenesB";
+import captions from "./captions.json";
 import { F } from "../Refs/Refs";
 import { Cross2Cover } from "./Cover";
 import {
@@ -33,6 +35,7 @@ const SCENE_COMPONENTS: React.FC<SceneProps>[] = [
   S6Bonus,
   S7Receipts,
   S8Cheat,
+  Channel,
 ];
 
 export const Cross2: React.FC = () => {
@@ -58,7 +61,14 @@ export const Cross2: React.FC = () => {
           </Sequence>
         );
       })}
-      <Subtitles lines={LINES} darkScene={-1} variant="soft" />
+      <Sequence from={SCENES[SCENE_COMPONENTS.length - 1]}>
+        <SiteButton />
+      </Sequence>
+      <Subtitles
+        lines={LINES}
+        darkScene={SCENE_COMPONENTS.length - 1}
+        variant="soft"
+      />
       <MusicBed
         src="music/bed-xl.mp3"
         lines={LINES}

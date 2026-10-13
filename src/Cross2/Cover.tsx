@@ -62,7 +62,7 @@ export const Cross2Cover: React.FC = () => (
           fontSize: 40,
         }}
       >
-        cross-sell · 5 правил
+        5 правил · кросс-продажи
       </div>
       <div
         style={{
@@ -73,14 +73,15 @@ export const Cross2Cover: React.FC = () => (
           boxShadow: "0 24px 50px rgba(36,59,85,0.2)",
           fontFamily: SANS,
           fontWeight: 900,
-          fontSize: 86,
+          fontSize: 120,
           lineHeight: 1.02,
           letterSpacing: "-0.035em",
           color: F.navy,
         }}
       >
-        Как продать <span style={{ color: F.coral }}>второй товар</span> каждому
-        покупателю
+        <span style={{ color: F.coral }}>Cross-sell</span>
+        <br />
+        на практике
       </div>
     </div>
   </AbsoluteFill>
