@@ -7,7 +7,7 @@ import { AbsoluteFill } from "remotion";
 // Стилевые референсы: один и тот же момент («Круассан или маффин?») в пяти стилях.
 const SANS = "Inter, sans-serif";
 
-const Label: React.FC<{ n: number; name: string; dark?: boolean }> = ({
+export const Label: React.FC<{ n: number; name: string; dark?: boolean }> = ({
   n,
   name,
   dark,
@@ -32,7 +32,7 @@ const Label: React.FC<{ n: number; name: string; dark?: boolean }> = ({
 );
 
 // ============ 1. Плоская иллюстрация ============
-const F = {
+export const F = {
   bg: "#F6E6D6",
   wall: "#FBEFE2",
   navy: "#243B55",
@@ -119,7 +119,7 @@ const FlatPerson: React.FC<{
   </g>
 );
 
-const FlatCroissant: React.FC<{ x: number; y: number; s: number }> = ({
+export const FlatCroissant: React.FC<{ x: number; y: number; s: number }> = ({
   x,
   y,
   s,
@@ -150,7 +150,7 @@ const FlatCroissant: React.FC<{ x: number; y: number; s: number }> = ({
   </g>
 );
 
-const FlatMuffin: React.FC<{
+export const FlatMuffin: React.FC<{
   x: number;
   y: number;
   s: number;
@@ -378,9 +378,10 @@ const iso = (x: number, y: number, z: number): [number, number] => [
   ISO.cx + (x - y) * 0.866 * ISO.s,
   ISO.cy + (x + y) * 0.5 * ISO.s - z * ISO.s,
 ];
-const pts = (a: [number, number][]) => a.map((p) => p.join(",")).join(" ");
+export const pts = (a: [number, number][]) =>
+  a.map((p) => p.join(",")).join(" ");
 
-const IsoBox: React.FC<{
+export const IsoBox: React.FC<{
   x: number;
   y: number;
   z: number;

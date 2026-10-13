@@ -13,6 +13,13 @@ import { WalmartCover } from "./Walmart/Cover";
 import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
 import { RefClay, RefData, RefFlat, RefIso, RefType } from "./Refs/Refs";
+import {
+  Ref10Bonus,
+  Ref6Checkout,
+  Ref7Home,
+  Ref8Shelf,
+  Ref9Bundle,
+} from "./Refs/Refs2";
 import { STORY_DURATION, Story } from "./Story/Story";
 
 // Each <Composition> is an entry in the sidebar!
@@ -20,6 +27,28 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* Референсы, серия 2: плоская иллюстрация + изометрия */}
+      <Still
+        id="Ref6Checkout"
+        component={Ref6Checkout}
+        width={1080}
+        height={1920}
+      />
+      <Still id="Ref7Home" component={Ref7Home} width={1080} height={1920} />
+      <Still id="Ref8Shelf" component={Ref8Shelf} width={1080} height={1920} />
+      <Still
+        id="Ref9Bundle"
+        component={Ref9Bundle}
+        width={1080}
+        height={1920}
+      />
+      <Still
+        id="Ref10Bonus"
+        component={Ref10Bonus}
+        width={1080}
+        height={1920}
+      />
+
       {/* Стилевые референсы */}
       <Still id="Ref1Flat" component={RefFlat} width={1080} height={1920} />
       <Still id="Ref2Iso" component={RefIso} width={1080} height={1920} />
