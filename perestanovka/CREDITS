@@ -1,0 +1,11 @@
+«Перестановка» — третьи стороны в фильме
+
+Шрифты (SIL Open Font License 1.1, через пакеты @fontsource):
+- Inter — Rasmus Andersson
+- JetBrains Mono — JetBrains
+- PT Serif — ParaType
+
+Текстура ореха (walnut_diff / walnut_nor / walnut_rough) — Poly Haven, CC0.
+3D: three.js (MIT), RoomEnvironment из примеров three.js (MIT).
+Музыка и звуки — синтезированы кодом специально для фильма (numpy), сэмплов нет.
+Голоса нет: текст на экране.
