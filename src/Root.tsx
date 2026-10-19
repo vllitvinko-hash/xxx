@@ -13,6 +13,15 @@ import { WalmartCover } from "./Walmart/Cover";
 import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
 import { NoirCover, NoirFrameA, NoirFrameB } from "./WalmartN/Frames";
+import {
+  CoverNoir,
+  CoverRiso,
+  CoverSwiss,
+  FILM_DURATION,
+  FilmNoir,
+  FilmRiso,
+  FilmSwiss,
+} from "./WalmartN/Film";
 import { WALMARTH_DURATION, WalmartH } from "./WalmartH/WalmartH";
 import { WalmartHCover } from "./WalmartH/Cover";
 import { CROSS2_DURATION, Cross2 } from "./Cross2/Cross2";
@@ -32,6 +41,49 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* «Пиво и подгузники» — три стиля */}
+      <Composition
+        id="BeerNoir"
+        component={FilmNoir}
+        durationInFrames={FILM_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Still
+        id="BeerNoirCover"
+        component={CoverNoir}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="BeerSwiss"
+        component={FilmSwiss}
+        durationInFrames={FILM_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Still
+        id="BeerSwissCover"
+        component={CoverSwiss}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="BeerRiso"
+        component={FilmRiso}
+        durationInFrames={FILM_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Still
+        id="BeerRisoCover"
+        component={CoverRiso}
+        width={1920}
+        height={1080}
+      />
       <Still id="NoirCover" component={NoirCover} width={1920} height={1080} />
       <Still
         id="NoirFrameA"
