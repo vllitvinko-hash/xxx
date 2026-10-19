@@ -19,7 +19,9 @@ export const Subtitles: React.FC<{
   lines: CaptionLine[];
   darkScene: number; // на этой сцене тёмный фон — субтитры инвертируются
   variant?: "brand" | "soft"; // soft — скруглённая плашка для иллюстрированного стиля
-}> = ({ lines, darkScene, variant = "brand" }) => {
+  top?: number; // верх плашки (по умолчанию — под вертикальный кадр)
+  maxWidth?: number;
+}> = ({ lines, darkScene, variant = "brand", top = 1420, maxWidth = 960 }) => {
   const soft = variant === "soft";
   const frame = useCurrentFrame();
   const line = lines.find(
@@ -45,7 +47,7 @@ export const Subtitles: React.FC<{
         position: "absolute",
         left: 60,
         right: 60,
-        top: 1420,
+        top,
         display: "flex",
         justifyContent: "center",
         opacity: appear,
@@ -62,7 +64,7 @@ export const Subtitles: React.FC<{
           fontWeight: 800,
           fontSize: 46,
           lineHeight: 1.3,
-          maxWidth: 960,
+          maxWidth,
         }}
       >
         {words.map((w, i) => {

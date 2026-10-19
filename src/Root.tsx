@@ -12,6 +12,8 @@ import { WALMART_DURATION, Walmart } from "./Walmart/Walmart";
 import { WalmartCover } from "./Walmart/Cover";
 import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
+import { WALMARTH_DURATION, WalmartH } from "./WalmartH/WalmartH";
+import { WalmartHCover } from "./WalmartH/Cover";
 import { CROSS2_DURATION, Cross2 } from "./Cross2/Cross2";
 import { Cross2Cover } from "./Cross2/Cover";
 import { RefClay, RefData, RefFlat, RefIso, RefType } from "./Refs/Refs";
@@ -29,6 +31,21 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* «Пиво и подгузники» — горизонтальная версия и заставка */}
+      <Composition
+        id="WalmartH"
+        component={WalmartH}
+        durationInFrames={WALMARTH_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Still
+        id="WalmartHCover"
+        component={WalmartHCover}
+        width={1920}
+        height={1080}
+      />
       {/* Референсы, серия 2: плоская иллюстрация + изометрия */}
       <Still
         id="Ref6Checkout"
