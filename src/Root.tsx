@@ -12,6 +12,7 @@ import { WALMART_DURATION, Walmart } from "./Walmart/Walmart";
 import { WalmartCover } from "./Walmart/Cover";
 import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
+import { NoirCover, NoirFrameA, NoirFrameB } from "./WalmartN/Frames";
 import { WALMARTH_DURATION, WalmartH } from "./WalmartH/WalmartH";
 import { WalmartHCover } from "./WalmartH/Cover";
 import { CROSS2_DURATION, Cross2 } from "./Cross2/Cross2";
@@ -31,6 +32,19 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Still id="NoirCover" component={NoirCover} width={1920} height={1080} />
+      <Still
+        id="NoirFrameA"
+        component={NoirFrameA}
+        width={1920}
+        height={1080}
+      />
+      <Still
+        id="NoirFrameB"
+        component={NoirFrameB}
+        width={1920}
+        height={1080}
+      />
       {/* «Пиво и подгузники» — горизонтальная версия и заставка */}
       <Composition
         id="WalmartH"
