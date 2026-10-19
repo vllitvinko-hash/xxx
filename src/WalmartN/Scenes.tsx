@@ -102,28 +102,6 @@ const Frame: React.FC<{ children: React.ReactNode; spotX?: number }> = ({
     </AbsoluteFill>
   );
 };
-// зачёркивание поверх блока
-const Strike: React.FC<{ k: number; w: number; h: number }> = ({ k, w, h }) => {
-  const t = useT();
-  if (k <= 0) return null;
-  return (
-    <svg
-      width={w}
-      height={h}
-      style={{ position: "absolute", left: 0, top: 0, pointerEvents: "none" }}
-    >
-      <line
-        x1={0}
-        y1={h * 0.55}
-        x2={w * k}
-        y2={h * 0.55 - 10 * k}
-        stroke={t.accent}
-        strokeWidth={12}
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-};
 
 // ---------- 0. Каждый товар рассказывает историю ----------
 export const Intro: React.FC<SceneProps> = ({ cue }) => {
@@ -133,7 +111,10 @@ export const Intro: React.FC<SceneProps> = ({ cue }) => {
   const lines = ["Каждый товар", "на полке", "рассказывает", "свою историю"];
   const out = ease(frame, c1 - 8, c1 + 6);
   const split = useSp(c1 + 4, 15);
-  const win = ease(frame, c2, c2 + 16);
+  const after = useSp(c2 - 18, 15);
+  const arrow = ease(frame, c2 - 26, c2 - 10);
+  const rowsShown = frame < c2 ? 1 : 2;
+  const two = ease(frame, c2 + 14, c2 + 28);
   const scroll = interpolate(frame, [0, 333], [0, -520]);
   const items = [
     "Молоко",
@@ -187,47 +168,106 @@ export const Intro: React.FC<SceneProps> = ({ cue }) => {
           );
         })}
       </div>
-      {/* говорят / покупают */}
+      {/* до / после: пришёл с мыслью — ушёл с чеком */}
       <div
         style={{
           position: "absolute",
           left: 110,
-          right: 110,
           top: 110,
-          display: "flex",
-          gap: 70,
+          width: 700,
           opacity: split,
           transform: `translateY(${(1 - split) * 50}px)`,
         }}
       >
-        <div style={{ flex: 1, opacity: 1 - win * 0.6, position: "relative" }}>
-          <Label>Говорят</Label>
-          <div style={{ position: "relative", marginTop: 30 }}>
-            <Display size={104} color={t.muted}>
-              {"«Беру только\nсамое\nнужное»"}
-            </Display>
-            <Strike k={win} w={760} h={330} />
-          </div>
-        </div>
+        <Label>До · пришёл с мыслью</Label>
         <div
           style={{
-            flex: 1,
-            transform: `scale(${1 + win * 0.04})`,
-            transformOrigin: "left top",
+            marginTop: 30,
+            width: 620,
+            background: t.paper,
+            border: t.id === "swiss" ? "3px solid #111" : undefined,
+            boxShadow: t.shadow,
+            padding: "34px 40px",
+            transform: "rotate(-2deg)",
           }}
         >
-          <Label color={t.beer}>Покупают</Label>
-          <svg width={820} height={720} style={{ marginTop: 20 }}>
-            <Check
-              x={20}
-              y={10}
-              w={460}
-              rows={["Подгузники", "Салфетки", "Пиво ×6", "Чипсы"]}
-              hi={win > 0.3 ? { Подгузники: "diaper", "Пиво ×6": "beer" } : {}}
-              head="ПТ · 19:42"
+          <div
+            style={{
+              fontFamily: t.mono,
+              fontWeight: 700,
+              fontSize: 26,
+              color: t.muted,
+              letterSpacing: "0.12em",
+            }}
+          >
+            КУПИТЬ:
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 20,
+              marginTop: 22,
+              fontFamily: t.body,
+              fontWeight: 800,
+              fontSize: 64,
+              color: t.paperInk,
+            }}
+          >
+            <span
+              style={{
+                width: 40,
+                height: 40,
+                border: `4px solid ${t.paperInk}`,
+                display: "inline-block",
+              }}
             />
-          </svg>
+            подгузники
+          </div>
         </div>
+        <Display size={140} style={{ marginTop: 50 }}>
+          1 товар
+        </Display>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          left: 860,
+          top: 330,
+          opacity: arrow,
+          transform: `translateX(${(1 - arrow) * -30}px)`,
+          fontFamily: t.display,
+          fontWeight: 900,
+          fontSize: 160,
+          color: t.ink,
+        }}
+      >
+        →
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          left: 1100,
+          top: 110,
+          opacity: after,
+          transform: `translateY(${(1 - after) * 40}px)`,
+        }}
+      >
+        <Label color={t.ink}>После · ушёл с чеком</Label>
+        <svg width={800} height={400} style={{ marginTop: 26 }}>
+          <Check
+            x={10}
+            y={10}
+            w={560}
+            rows={["Подгузники", "Пиво ×6"].slice(0, rowsShown)}
+            hi={{ Подгузники: "diaper", "Пиво ×6": "beer" }}
+            head="ПТ · 19:42 · КАССА 2"
+            s={1.35}
+          />
+        </svg>
+        <Display size={140} style={{ marginTop: 10, opacity: two }}>
+          <B>2</B> товара
+        </Display>
       </div>
     </Frame>
   );
@@ -1015,7 +1055,6 @@ export const Survey: React.FC<SceneProps> = ({ cue }) => {
           style={{
             padding: "40px 44px",
             position: "relative",
-            opacity: 1 - cross * 0.4,
           }}
         >
           <Label>Опрос</Label>
@@ -1057,7 +1096,23 @@ export const Survey: React.FC<SceneProps> = ({ cue }) => {
               {o}
             </div>
           ))}
-          <Strike k={cross} w={760} h={460} />
+          <div
+            style={{
+              position: "absolute",
+              right: -30,
+              bottom: -36,
+              opacity: cross,
+              transform: `rotate(-3deg) scale(${0.9 + 0.1 * cross})`,
+              background: t.ink,
+              color: t.bg,
+              fontFamily: t.body,
+              fontWeight: 900,
+              fontSize: 34,
+              padding: "12px 22px",
+            }}
+          >
+            про пиво в опросе не скажут
+          </div>
         </Card>
       </At>
       <svg
