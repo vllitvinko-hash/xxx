@@ -113,7 +113,7 @@ export const Intro: React.FC<SceneProps> = ({ cue }) => {
   const split = useSp(c1 + 4, 15);
   const after = useSp(c2 - 18, 15);
   const arrow = ease(frame, c2 - 26, c2 - 10);
-  const rowsShown = frame < c2 ? 1 : 2;
+  const path = ease(frame, c1 + 14, c1 + 70, 0, 100);
   const two = ease(frame, c2 + 14, c2 + 28);
   const scroll = interpolate(frame, [0, 333], [0, -520]);
   const items = [
@@ -168,72 +168,87 @@ export const Intro: React.FC<SceneProps> = ({ cue }) => {
           );
         })}
       </div>
-      {/* до / после: пришёл с мыслью — ушёл с чеком */}
+      {/* в зале — далеко, в чеке — вместе */}
       <div
         style={{
           position: "absolute",
           left: 110,
           top: 110,
-          width: 700,
           opacity: split,
           transform: `translateY(${(1 - split) * 50}px)`,
         }}
       >
-        <Label>До · пришёл с мыслью</Label>
-        <div
-          style={{
-            marginTop: 30,
-            width: 620,
-            background: t.paper,
-            border: t.id === "swiss" ? "3px solid #111" : undefined,
-            boxShadow: t.shadow,
-            padding: "34px 40px",
-            transform: "rotate(-2deg)",
-          }}
-        >
-          <div
-            style={{
-              fontFamily: t.mono,
-              fontWeight: 700,
-              fontSize: 26,
-              color: t.muted,
-              letterSpacing: "0.12em",
-            }}
-          >
-            КУПИТЬ:
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 20,
-              marginTop: 22,
-              fontFamily: t.body,
-              fontWeight: 800,
-              fontSize: 64,
-              color: t.paperInk,
-            }}
-          >
-            <span
-              style={{
-                width: 40,
-                height: 40,
-                border: `4px solid ${t.paperInk}`,
-                display: "inline-block",
-              }}
+        <Label>В зале</Label>
+        <svg width={700} height={420} style={{ marginTop: 24 }}>
+          <rect
+            x={6}
+            y={6}
+            width={680}
+            height={400}
+            fill={t.surface}
+            stroke={t.ink}
+            strokeWidth={4}
+          />
+          {[0, 1, 2].map((k) => (
+            <rect
+              key={k}
+              x={210 + k * 110}
+              y={70}
+              width={70}
+              height={250}
+              fill={t.dim}
             />
-            подгузники
-          </div>
-        </div>
-        <Display size={140} style={{ marginTop: 50 }}>
-          1 товар
+          ))}
+          <rect x={30} y={30} width={150} height={90} fill={t.diaper} />
+          <text
+            x={105}
+            y={84}
+            textAnchor="middle"
+            fontFamily={t.mono}
+            fontWeight={700}
+            fontSize={20}
+            fill="#fff"
+          >
+            ПОДГУЗНИКИ
+          </text>
+          <rect x={516} y={290} width={150} height={90} fill={t.beer} />
+          <text
+            x={591}
+            y={344}
+            textAnchor="middle"
+            fontFamily={t.mono}
+            fontWeight={700}
+            fontSize={22}
+            fill={t.paperInk}
+          >
+            ПИВО
+          </text>
+          <polyline
+            points="105,120 105,360 516,360"
+            pathLength={100}
+            fill="none"
+            stroke={t.ink}
+            strokeWidth={5}
+            strokeDasharray={`${path} 100`}
+          />
+          {path > 98 && (
+            <path
+              d="M 498 346 L 516 360 L 498 374"
+              stroke={t.ink}
+              strokeWidth={5}
+              fill="none"
+            />
+          )}
+        </svg>
+        <Display size={120} style={{ marginTop: 26 }}>
+          в разных концах
         </Display>
       </div>
       <div
         style={{
           position: "absolute",
-          left: 860,
-          top: 330,
+          left: 880,
+          top: 300,
           opacity: arrow,
           transform: `translateX(${(1 - arrow) * -30}px)`,
           fontFamily: t.display,
@@ -247,26 +262,26 @@ export const Intro: React.FC<SceneProps> = ({ cue }) => {
       <div
         style={{
           position: "absolute",
-          left: 1100,
+          left: 1110,
           top: 110,
           opacity: after,
           transform: `translateY(${(1 - after) * 40}px)`,
         }}
       >
-        <Label color={t.ink}>После · ушёл с чеком</Label>
-        <svg width={800} height={400} style={{ marginTop: 26 }}>
+        <Label color={t.ink}>В чеке</Label>
+        <svg width={760} height={420} style={{ marginTop: 24 }}>
           <Check
             x={10}
             y={10}
-            w={560}
-            rows={["Подгузники", "Пиво ×6"].slice(0, rowsShown)}
+            w={520}
+            rows={["Подгузники", "Пиво ×6"]}
             hi={{ Подгузники: "diaper", "Пиво ×6": "beer" }}
             head="ПТ · 19:42 · КАССА 2"
-            s={1.35}
+            s={1.3}
           />
         </svg>
-        <Display size={140} style={{ marginTop: 10, opacity: two }}>
-          <B>2</B> товара
+        <Display size={120} style={{ marginTop: 26, opacity: two }}>
+          <B>вместе</B>
         </Display>
       </div>
     </Frame>
