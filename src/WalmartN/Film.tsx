@@ -3,6 +3,7 @@ import { Thumb4 } from "./Thumbs";
 import {
   AbsoluteFill,
   Audio,
+  Img,
   Sequence,
   staticFile,
   useCurrentFrame,
@@ -166,7 +167,14 @@ export const Film: React.FC<{ theme: ThemeId }> = ({ theme }) => (
       ))}
       <Progress />
       <Sequence durationInFrames={1}>
-        {theme === "swiss" ? <Thumb4 /> : <CoverBody />}
+        {theme === "swiss" ? (
+          <Img
+            src={staticFile("covers/pivo-trick.png")}
+            style={{ width: 1920, height: 1080 }}
+          />
+        ) : (
+          <CoverBody />
+        )}
       </Sequence>
     </AbsoluteFill>
   </ThemeProvider>
