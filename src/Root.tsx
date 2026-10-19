@@ -13,6 +13,7 @@ import { WalmartCover } from "./Walmart/Cover";
 import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
 import { NoirCover, NoirFrameA, NoirFrameB } from "./WalmartN/Frames";
+import { OptA, OptB, OptC } from "./WalmartN/Options";
 import {
   CoverNoir,
   CoverRiso,
@@ -41,6 +42,9 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Still id="OptA" component={OptA} width={1920} height={1080} />
+      <Still id="OptB" component={OptB} width={1920} height={1080} />
+      <Still id="OptC" component={OptC} width={1920} height={1080} />
       {/* «Пиво и подгузники» — три стиля */}
       <Composition
         id="BeerNoir"
