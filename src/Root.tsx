@@ -14,6 +14,7 @@ import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
 import { NoirCover, NoirFrameA, NoirFrameB } from "./WalmartN/Frames";
 import { OptA, OptB, OptC } from "./WalmartN/Options";
+import { Thumb1, Thumb2, Thumb3 } from "./WalmartN/Thumbs";
 import {
   CoverNoir,
   CoverRiso,
@@ -42,6 +43,9 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Still id="Thumb1" component={Thumb1} width={1920} height={1080} />
+      <Still id="Thumb2" component={Thumb2} width={1920} height={1080} />
+      <Still id="Thumb3" component={Thumb3} width={1920} height={1080} />
       <Still id="OptA" component={OptA} width={1920} height={1080} />
       <Still id="OptB" component={OptB} width={1920} height={1080} />
       <Still id="OptC" component={OptC} width={1920} height={1080} />
