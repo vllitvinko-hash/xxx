@@ -150,3 +150,61 @@ const wrap = (C: React.FC) => {
 export const Thumb1 = wrap(T1);
 export const Thumb2 = wrap(T2);
 export const Thumb3 = wrap(T3);
+
+// 4: «Самый известный трюк супермаркетов» — выбранная фраза
+const T4: React.FC = () => {
+  useT();
+  return (
+    <AbsoluteFill style={{ background: GREEN }}>
+      <svg
+        width={1920}
+        height={1080}
+        style={{ position: "absolute", inset: 0 }}
+      >
+        <rect
+          x={1190}
+          y={300}
+          width={690}
+          height={720}
+          rx={40}
+          fill="#F4F3EE"
+        />
+        <Check
+          x={1190}
+          y={70}
+          w={520}
+          rows={["Подгузники", "Пиво ×6"]}
+          hi={{ Подгузники: "diaper", "Пиво ×6": "beer" }}
+          head="ПТ · 19:42"
+          r={5}
+          s={1.2}
+        />
+        <Diapers x={1370} y={700} s={1.12} r={-6} id="t4d" />
+        <Beer x={1710} y={720} s={1.12} r={7} id="t4b" />
+      </svg>
+      <div style={{ position: "absolute", left: 90, top: 100 }}>
+        <div style={W({ fontSize: 158, color: "#fff" })}>Самый</div>
+        <div style={W({ fontSize: 158, color: "#fff" })}>известный</div>
+        <div style={W({ fontSize: 240, color: YELLOW, marginTop: 10 })}>
+          трюк
+        </div>
+        <div style={W({ fontSize: 108, color: "#fff", marginTop: 10 })}>
+          супермаркетов
+        </div>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          left: 90,
+          bottom: 70,
+          background: YELLOW,
+          padding: "14px 30px",
+          ...W({ fontSize: 56, color: INK, lineHeight: 1 }),
+        }}
+      >
+        пиво + подгузники
+      </div>
+    </AbsoluteFill>
+  );
+};
+export const Thumb4 = wrap(T4);

@@ -1,4 +1,5 @@
 import React from "react";
+import { Thumb4 } from "./Thumbs";
 import {
   AbsoluteFill,
   Audio,
@@ -83,7 +84,11 @@ const CoverBody: React.FC = () => {
         <Label color={t.mark ? t.ink : t.beer} style={{ fontSize: 36 }}>
           Почему в супермаркете
         </Label>
-        <Display size={300} color={t.beer} style={{ marginTop: t.mark ? 30 : 6 }}>
+        <Display
+          size={300}
+          color={t.beer}
+          style={{ marginTop: t.mark ? 30 : 6 }}
+        >
           Пиво
         </Display>
         <Display size={150} style={{ whiteSpace: "nowrap" }}>
@@ -161,7 +166,7 @@ export const Film: React.FC<{ theme: ThemeId }> = ({ theme }) => (
       ))}
       <Progress />
       <Sequence durationInFrames={1}>
-        <CoverBody />
+        {theme === "swiss" ? <Thumb4 /> : <CoverBody />}
       </Sequence>
     </AbsoluteFill>
   </ThemeProvider>
@@ -170,5 +175,5 @@ export const FilmNoir: React.FC = () => <Film theme="noir" />;
 export const FilmSwiss: React.FC = () => <Film theme="swiss" />;
 export const FilmRiso: React.FC = () => <Film theme="riso" />;
 export const CoverNoir: React.FC = () => <FilmCover theme="noir" />;
-export const CoverSwiss: React.FC = () => <FilmCover theme="swiss" />;
+export const CoverSwiss: React.FC = () => <Thumb4 />;
 export const CoverRiso: React.FC = () => <FilmCover theme="riso" />;

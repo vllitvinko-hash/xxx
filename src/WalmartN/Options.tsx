@@ -121,7 +121,7 @@ const A: React.FC = () => {
           head="ПТ · 19:42"
           s={1.15}
         />
-        </svg>
+      </svg>
       <div
         style={{
           position: "absolute",
