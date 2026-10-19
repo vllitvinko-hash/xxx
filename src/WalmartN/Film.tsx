@@ -80,10 +80,10 @@ const CoverBody: React.FC = () => {
         <Beer x={1800} y={680} s={0.95} r={4} id="cb" />
       </svg>
       <div style={{ position: "absolute", left: 90, top: 96, width: 1150 }}>
-        <Label color={t.beer} style={{ fontSize: 36 }}>
+        <Label color={t.mark ? t.ink : t.beer} style={{ fontSize: 36 }}>
           Почему в супермаркете
         </Label>
-        <Display size={300} color={t.beer} style={{ marginTop: 6 }}>
+        <Display size={300} color={t.beer} style={{ marginTop: t.mark ? 30 : 6 }}>
           Пиво
         </Display>
         <Display size={150} style={{ whiteSpace: "nowrap" }}>

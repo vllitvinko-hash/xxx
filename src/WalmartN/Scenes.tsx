@@ -10,7 +10,16 @@ import {
 import { clamp } from "../brand";
 import { SceneProps } from "../Abc/ScenesA";
 import { QR } from "../WalmartH/Art";
-import { Backdrop, Beer, Check, Diapers, Display, Label, useT } from "./Theme";
+import {
+  B,
+  Backdrop,
+  Beer,
+  Check,
+  Diapers,
+  Display,
+  Label,
+  useT,
+} from "./Theme";
 
 // Сцены «Пиво и подгузники» (1920×1080). Вид — из темы; содержание и тайминг общие для трёх стилей.
 // Рабочая область кадра — до y≈880, ниже субтитры.
@@ -332,7 +341,13 @@ export const Start: React.FC<SceneProps> = ({ cue }) => {
             config: { damping: 13 },
           });
           const col =
-            n === "Пиво" ? t.beer : n === "Подгузники" ? t.diaper : t.ink;
+            n === "Пиво"
+              ? t.mark
+                ? "#8A6A00"
+                : t.beer
+              : n === "Подгузники"
+                ? t.diaper
+                : t.ink;
           return (
             <Pop key={n} s={s} x={pos[i][0]} y={pos[i][1]}>
               <circle cx={pos[i][0]} cy={pos[i][1]} r={14} fill={col} />
@@ -375,7 +390,7 @@ export const Idea: React.FC<SceneProps> = ({ cue }) => {
     <Frame spotX={960}>
       <At x={110} y={100} s={head} dx={-40} dy={0}>
         <Display size={130}>
-          Идея была <span style={{ color: t.beer }}>простой</span>
+          Идея была <B>простой</B>
         </Display>
       </At>
       <At x={110} y={270} s={pair} dx={0} dy={20}>
@@ -393,7 +408,7 @@ export const Idea: React.FC<SceneProps> = ({ cue }) => {
           <span>НАЙДИ ПАРЫ</span>
           <span style={{ color: t.diaper }}>■ A</span>
           <span>+</span>
-          <span style={{ color: t.beer }}>■ Б</span>
+          <B>■ Б</B>
           <span style={{ color: t.muted }}>→ УМНЫЕ РЕШЕНИЯ</span>
         </div>
       </At>
@@ -805,7 +820,15 @@ const Plan: React.FC<{ hide?: string[] }> = ({ hide = [] }) => {
               fontFamily={t.mono}
               fontWeight={700}
               fontSize={22}
-              fill={k === "kids" ? t.diaper : k === "drinks" ? t.beer : t.muted}
+              fill={
+                k === "kids"
+                  ? t.diaper
+                  : k === "drinks"
+                    ? t.mark
+                      ? "#8A6A00"
+                      : t.beer
+                    : t.muted
+              }
             >
               {z.name}
             </text>
@@ -1056,7 +1079,7 @@ export const Survey: React.FC<SceneProps> = ({ cue }) => {
       </svg>
       <At x={110} y={680} s={verdict} dx={0} dy={30}>
         <Display size={100}>
-          Не спрашивает — <span style={{ color: t.beer }}>наблюдает</span>
+          Не спрашивает — <B>наблюдает</B>
         </Display>
       </At>
     </Frame>
@@ -1255,8 +1278,7 @@ export const Today: React.FC<SceneProps> = ({ cue }) => {
                   borderRadius: t.radius,
                 }}
               >
-                <span style={{ color: t.beer }}>[{i + 1}]</span> {c} · «пиво и
-                подгузники»
+                <B>[{i + 1}]</B> {c} · «пиво и подгузники»
               </div>
             );
           })}
@@ -1266,7 +1288,7 @@ export const Today: React.FC<SceneProps> = ({ cue }) => {
         <At x={110} y={100} s={hub} dx={0} dy={20}>
           <Label>Сегодня на этом держится</Label>
           <Display size={110} style={{ marginTop: 12 }}>
-            Анализ <span style={{ color: t.beer }}>корзины</span>
+            Анализ <B>корзины</B>
           </Display>
         </At>
         <div

@@ -30,6 +30,7 @@ export type Theme = {
   shadow: string; // тень карточек
   radius: number;
   misprint?: string; // второй краской (ризограф)
+  mark?: boolean; // «пивной» текст — маркером под тёмным текстом (жёлтый не читается на светлом)
 };
 
 export const THEMES: Record<ThemeId, Theme> = {
@@ -56,16 +57,16 @@ export const THEMES: Record<ThemeId, Theme> = {
   },
   swiss: {
     id: "swiss",
-    bg: "#F7F7F4",
+    bg: "#F4F3EE",
     surface: "#FFFFFF",
-    ink: "#111111",
-    muted: "#6E6E6A",
-    dim: "#D8D8D2",
-    beer: "#FFB000",
-    diaper: "#1F4BFF",
-    accent: "#FF2A00",
+    ink: "#16181A",
+    muted: "#5A6066",
+    dim: "#DEDCD4",
+    beer: "#FFD23F",
+    diaper: "#0E4D2E",
+    accent: "#B3372E",
     paper: "#FFFFFF",
-    paperInk: "#111111",
+    paperInk: "#16181A",
     display: "Inter, 'Helvetica Neue', sans-serif",
     displayWeight: 900,
     displaySize: 0.82,
@@ -74,6 +75,7 @@ export const THEMES: Record<ThemeId, Theme> = {
     mono: "'JetBrains Mono', monospace",
     shadow: "none",
     radius: 0,
+    mark: true,
   },
   riso: {
     id: "riso",
@@ -170,6 +172,24 @@ export const Overlay: React.FC = () => {
 };
 
 // ---------- типографика ----------
+// «пивной» акцент: цветом или маркером, если тема так велит
+export const B: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const t = useT();
+  if (!t.mark) return <span style={{ color: t.beer }}>{children}</span>;
+  return (
+    <span
+      style={{
+        background: t.beer,
+        color: t.ink,
+        padding: "0 0.12em",
+        boxDecorationBreak: "clone",
+        WebkitBoxDecorationBreak: "clone",
+      }}
+    >
+      {children}
+    </span>
+  );
+};
 export const Display: React.FC<{
   children: React.ReactNode;
   size?: number;
@@ -177,6 +197,7 @@ export const Display: React.FC<{
   style?: React.CSSProperties;
 }> = ({ children, size = 120, color, style }) => {
   const t = useT();
+  const marked = t.mark && color === t.beer;
   return (
     <div
       style={{
@@ -191,7 +212,7 @@ export const Display: React.FC<{
               ? "-0.01em"
               : "0.005em",
         textTransform: t.upper ? "uppercase" : "none",
-        color: color ?? t.ink,
+        color: marked ? t.ink : (color ?? t.ink),
         textShadow: t.misprint
           ? `${Math.max(3, size * 0.035)}px ${Math.max(2, size * 0.025)}px 0 ${t.misprint}`
           : undefined,
@@ -199,7 +220,7 @@ export const Display: React.FC<{
         ...style,
       }}
     >
-      {children}
+      {marked ? <B>{children}</B> : children}
     </div>
   );
 };
@@ -209,6 +230,7 @@ export const Label: React.FC<{
   style?: React.CSSProperties;
 }> = ({ children, color, style }) => {
   const t = useT();
+  const marked = t.mark && color === t.beer;
   return (
     <div
       style={{
@@ -217,11 +239,11 @@ export const Label: React.FC<{
         fontSize: 26,
         letterSpacing: "0.2em",
         textTransform: "uppercase",
-        color: color ?? t.muted,
+        color: marked ? t.ink : (color ?? t.muted),
         ...style,
       }}
     >
-      {children}
+      {marked ? <B>{children}</B> : children}
     </div>
   );
 };
@@ -454,7 +476,9 @@ export const Check: React.FC<{
             fontFamily={t.mono}
             fontWeight={hi[row] ? 700 : 500}
             fontSize={22}
-            fill={hi[row] && t.id === "swiss" ? "#fff" : t.paperInk}
+            fill={
+              hi[row] === "diaper" && t.id === "swiss" ? "#fff" : t.paperInk
+            }
           >
             {row}
           </text>
