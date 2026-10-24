@@ -13,6 +13,7 @@ import { WalmartCover } from "./Walmart/Cover";
 import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
 import { GRID_DURATION, GridCover, GridFilm } from "./Grid/Film";
+import { GRID2_DURATION, Grid2Cover, Grid2Film } from "./Grid2/Film";
 import { NoirCover, NoirFrameA, NoirFrameB } from "./WalmartN/Frames";
 import { OptA, OptB, OptC } from "./WalmartN/Options";
 import { Thumb1, Thumb2, Thumb3, Thumb4 } from "./WalmartN/Thumbs";
@@ -44,6 +45,20 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      <Composition
+        id="Grid2"
+        component={Grid2Film}
+        durationInFrames={GRID2_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Still
+        id="Grid2Cover"
+        component={Grid2Cover}
+        width={1920}
+        height={1080}
+      />
       {/* «Вертикаль и горизонталь» */}
       <Composition
         id="Grid"
