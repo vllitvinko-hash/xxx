@@ -1,11 +1,15 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Audio,
+  Easing,
   Sequence,
+  interpolate,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { Scene } from "../brand";
+import { clamp } from "../brand";
 import { CaptionLine, MusicBed } from "../captioning";
 import { SceneProps } from "../Abc/ScenesA";
 import { Check, ThemeProvider, ThemedSubs, useT } from "../WalmartN/Theme";
@@ -125,6 +129,81 @@ export const GridCover: React.FC = () => (
     <CoverBody />
   </ThemeProvider>
 );
+// лёгкий наезд камеры внутри сцены
+const Push: React.FC<{ length: number; children: React.ReactNode }> = ({
+  length,
+  children,
+}) => {
+  const frame = useCurrentFrame();
+  const k = interpolate(frame, [0, length], [1, 1.035], clamp);
+  return (
+    <AbsoluteFill
+      style={{ transform: `scale(${k})`, transformOrigin: "50% 45%" }}
+    >
+      {children}
+    </AbsoluteFill>
+  );
+};
+// фирменная шторка между сценами: зелёная панель с жёлтой кромкой проезжает слева направо
+const WIPE = 9;
+const Wipe: React.FC = () => {
+  const frame = useCurrentFrame();
+  const x = interpolate(frame, [0, WIPE * 2], [-2200, 2000], {
+    ...clamp,
+    easing: Easing.inOut(Easing.cubic),
+  });
+  return (
+    <AbsoluteFill style={{ pointerEvents: "none" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          left: x,
+          width: 2000,
+          background: GREEN,
+          transform: "skewX(-12deg)",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          left: x + 2000,
+          width: 36,
+          background: YELLOW,
+          transform: "skewX(-12deg)",
+        }}
+      />
+    </AbsoluteFill>
+  );
+};
+// логотип в углу на протяжении ролика
+const Brand: React.FC = () => {
+  const frame = useCurrentFrame();
+  if (frame < 2 || frame >= SCENES[SCENES.length - 2]) return null;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: 20,
+        right: 40,
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        fontFamily: "'JetBrains Mono', monospace",
+        fontWeight: 700,
+        fontSize: 22,
+        letterSpacing: "0.12em",
+        color: INK,
+      }}
+    >
+      <span>АНАЛИТИКА</span>
+      <span style={{ background: YELLOW, padding: "2px 10px" }}>ПРО</span>
+    </div>
+  );
+};
 const Progress: React.FC = () => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
@@ -152,17 +231,31 @@ export const GridFilm: React.FC = () => (
         );
         return (
           <Sequence key={i} from={from} durationInFrames={len}>
-            {i === 0 || i === COMPS.length - 1 ? (
+            <Push length={len}>
               <Comp cue={cue} />
-            ) : (
-              <Scene length={len}>
-                <Comp cue={cue} />
-              </Scene>
-            )}
+            </Push>
           </Sequence>
         );
       })}
+      {SCENES.slice(1, -1).map((b) => (
+        <Sequence key={`w${b}`} from={b - WIPE} durationInFrames={WIPE * 2}>
+          <Wipe />
+        </Sequence>
+      ))}
+      <Brand />
       <ThemedSubs lines={LINES} />
+      {SCENES.slice(1, -1).map((b) => (
+        <Sequence key={`ws${b}`} from={b - WIPE - 4} layout="none">
+          <Audio src={staticFile("sfx/whoosh.wav")} volume={0.35} />
+        </Sequence>
+      ))}
+      {LINES.filter((l, i) => i > 0 && LINES[i - 1].scene === l.scene).map(
+        (l) => (
+          <Sequence key={`p${l.id}`} from={l.from} layout="none">
+            <Audio src={staticFile("sfx/pop.wav")} volume={0.18} />
+          </Sequence>
+        ),
+      )}
       <MusicBed
         src="music/bed-xl.mp3"
         lines={LINES}

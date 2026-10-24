@@ -85,7 +85,214 @@ const PAL = [
   "#A9B7AE",
   "#16181A",
 ];
-// аккуратная полка: ряды одинаковых упаковок
+// упаковка товара: бутылка, банка, коробка, жестянка, пакет — с бликом и этикеткой
+type Kind = "bottle" | "jar" | "box" | "can" | "pouch";
+const KINDS: Kind[] = ["bottle", "jar", "box", "can", "pouch"];
+export const Product: React.FC<{
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  kind: Kind;
+  color: string;
+  o?: number;
+  label?: string;
+}> = ({ x, y, w, h, kind, color, o = 1, label }) => {
+  // (x, y) — левый нижний угол ячейки
+  const cx = x + w / 2;
+  const lab = "#F7F5EE";
+  const shade = "rgba(0,0,0,0.16)";
+  let body: React.ReactNode;
+  if (kind === "bottle") {
+    const bw = w * 0.62,
+      nh = h * 0.28;
+    body = (
+      <>
+        <rect
+          x={cx - w * 0.1}
+          y={y - h}
+          width={w * 0.2}
+          height={h * 0.08}
+          fill="#16181A"
+        />
+        <path
+          d={`M ${cx - w * 0.09} ${y - h * 0.92} L ${cx + w * 0.09} ${y - h * 0.92} L ${cx + w * 0.09} ${y - h + nh} Q ${cx + bw / 2} ${y - h + nh + 8} ${cx + bw / 2} ${y - h + nh + 22} L ${cx + bw / 2} ${y} L ${cx - bw / 2} ${y} L ${cx - bw / 2} ${y - h + nh + 22} Q ${cx - bw / 2} ${y - h + nh + 8} ${cx - w * 0.09} ${y - h + nh} Z`}
+          fill={color}
+        />
+        <rect
+          x={cx - bw / 2}
+          y={y - h * 0.5}
+          width={bw}
+          height={h * 0.26}
+          fill={lab}
+        />
+        <rect
+          x={cx + bw / 2 - bw * 0.22}
+          y={y - h + nh + 16}
+          width={bw * 0.22}
+          height={h - nh - 16}
+          fill={shade}
+        />
+      </>
+    );
+  } else if (kind === "jar") {
+    const bw = w * 0.86;
+    body = (
+      <>
+        <rect
+          x={cx - bw / 2 + 3}
+          y={y - h * 0.72}
+          width={bw - 6}
+          height={h * 0.1}
+          rx={3}
+          fill="#16181A"
+        />
+        <rect
+          x={cx - bw / 2}
+          y={y - h * 0.62}
+          width={bw}
+          height={h * 0.62}
+          rx={8}
+          fill={color}
+        />
+        <rect
+          x={cx - bw / 2}
+          y={y - h * 0.45}
+          width={bw}
+          height={h * 0.25}
+          fill={lab}
+        />
+        <rect
+          x={cx + bw / 2 - bw * 0.2}
+          y={y - h * 0.62}
+          width={bw * 0.2}
+          height={h * 0.62}
+          fill={shade}
+        />
+      </>
+    );
+  } else if (kind === "box") {
+    const bw = w * 0.9;
+    body = (
+      <>
+        <rect
+          x={cx - bw / 2}
+          y={y - h * 0.88}
+          width={bw}
+          height={h * 0.88}
+          fill={color}
+        />
+        <rect
+          x={cx - bw / 2}
+          y={y - h * 0.88}
+          width={bw}
+          height={h * 0.1}
+          fill="rgba(255,255,255,0.25)"
+        />
+        <circle
+          cx={cx - bw * 0.05}
+          cy={y - h * 0.48}
+          r={bw * 0.22}
+          fill={lab}
+        />
+        <rect
+          x={cx + bw / 2 - bw * 0.18}
+          y={y - h * 0.88}
+          width={bw * 0.18}
+          height={h * 0.88}
+          fill={shade}
+        />
+      </>
+    );
+  } else if (kind === "can") {
+    const bw = w * 0.7;
+    body = (
+      <>
+        <rect
+          x={cx - bw / 2}
+          y={y - h * 0.6}
+          width={bw}
+          height={h * 0.6}
+          rx={4}
+          fill={color}
+        />
+        <rect
+          x={cx - bw / 2}
+          y={y - h * 0.6}
+          width={bw}
+          height={5}
+          fill="#9AA0A6"
+        />
+        <rect x={cx - bw / 2} y={y - 5} width={bw} height={5} fill="#9AA0A6" />
+        <rect
+          x={cx - bw / 2}
+          y={y - h * 0.42}
+          width={bw}
+          height={h * 0.16}
+          fill={lab}
+        />
+        <rect
+          x={cx + bw / 2 - bw * 0.22}
+          y={y - h * 0.6}
+          width={bw * 0.22}
+          height={h * 0.6}
+          fill={shade}
+        />
+      </>
+    );
+  } else {
+    const bw = w * 0.86;
+    body = (
+      <>
+        <path
+          d={`M ${cx - bw / 2 + 4} ${y - h * 0.8} L ${cx + bw / 2 - 4} ${y - h * 0.8} L ${cx + bw / 2} ${y} L ${cx - bw / 2} ${y} Z`}
+          fill={color}
+        />
+        <rect
+          x={cx - bw / 2 + 4}
+          y={y - h * 0.8}
+          width={bw - 8}
+          height={6}
+          fill="rgba(0,0,0,0.25)"
+        />
+        <rect
+          x={cx - bw * 0.3}
+          y={y - h * 0.5}
+          width={bw * 0.6}
+          height={h * 0.22}
+          fill={lab}
+        />
+      </>
+    );
+  }
+  return (
+    <g opacity={o}>
+      {body}
+      <rect
+        x={cx - w * 0.32}
+        y={y - h * 0.86}
+        width={3}
+        height={h * 0.6}
+        fill="#fff"
+        opacity={0.28}
+      />
+      {label && (
+        <text
+          x={cx}
+          y={y - h * 0.34}
+          textAnchor="middle"
+          fontFamily="'JetBrains Mono', monospace"
+          fontWeight={700}
+          fontSize={Math.min(16, w * 0.3)}
+          fill="#16181A"
+        >
+          {label}
+        </text>
+      )}
+    </g>
+  );
+};
+// стеллаж: задник, полки с кромкой и ценниками, ряды разных упаковок
 const Shelf: React.FC<{
   x: number;
   y: number;
@@ -109,44 +316,69 @@ const Shelf: React.FC<{
 }) => {
   const t = useT();
   const out: React.ReactNode[] = [];
+  out.push(
+    <rect
+      key="back"
+      x={x}
+      y={y}
+      width={w}
+      height={rows * rowH}
+      fill="#ECEAE3"
+    />,
+  );
   for (let r = 0; r < rows; r++) {
+    const kind = KINDS[(seed * 3 + r) % KINDS.length];
     const col = PAL[(seed + r * 2) % PAL.length];
     const n = Math.floor(w / 62);
+    const base = y + (r + 1) * rowH - 26;
+    out.push(
+      <rect
+        key={`sh${r}`}
+        x={x}
+        y={base - 6}
+        width={w}
+        height={6}
+        fill="rgba(0,0,0,0.08)"
+      />,
+    );
     for (let k = 0; k < n; k++)
       out.push(
-        <rect
+        <Product
           key={`${r}-${k}`}
-          x={x + 10 + k * 62}
-          y={y + r * rowH + 18}
-          width={50}
-          height={rowH - 44}
-          fill={col}
-          opacity={hiRow >= 0 && hiRow !== r ? 0.35 : 1}
+          x={x + 6 + k * 62}
+          y={base}
+          w={56}
+          h={rowH - 40}
+          kind={kind}
+          color={col}
+          o={hiRow >= 0 && hiRow !== r ? 0.35 : 1}
         />,
       );
     out.push(
-      <rect
-        key={`b${r}`}
-        x={x}
-        y={y + (r + 1) * rowH - 26}
-        width={w}
-        height={10}
-        fill={t.ink}
-      />,
+      <rect key={`b${r}`} x={x} y={base} width={w} height={12} fill={t.ink} />,
+    );
+    out.push(
+      <rect key={`e${r}`} x={x} y={base} width={w} height={3} fill="#4A4F55" />,
     );
     if (tags)
-      for (let k = 0; k < n; k += 3)
+      for (let k = 0; k < n; k += 2)
         out.push(
-          <rect
-            key={`t${r}-${k}`}
-            x={x + 14 + k * 62}
-            y={y + (r + 1) * rowH - 16}
-            width={40}
-            height={14}
-            fill="#fff"
-            stroke={t.ink}
-            strokeWidth={1.5}
-          />,
+          <g key={`t${r}-${k}`}>
+            <rect
+              x={x + 12 + k * 62}
+              y={base + 12}
+              width={44}
+              height={18}
+              fill={k % 4 === 0 ? "#FFD23F" : "#fff"}
+            />
+            <rect
+              x={x + 16 + k * 62}
+              y={base + 18}
+              width={22}
+              height={4}
+              fill="#16181A"
+            />
+          </g>,
         );
   }
   return <g opacity={o}>{out}</g>;
@@ -314,26 +546,26 @@ export const Vertical: React.FC<SceneProps> = ({ cue }) => {
           w={16}
         />
         <g opacity={sauce} transform={`translate(${(1 - sauce) * 40} 0)`}>
-          <rect x={1540} y={250} width={300} height={70} fill={t.beer} />
+          <rect x={1500} y={250} width={300} height={70} fill={t.beer} />
           <text
-            x={1556}
+            x={1516}
             y={297}
             fontFamily={t.body}
             fontWeight={900}
-            fontSize={36}
+            fontSize={32}
             fill={t.ink}
           >
             соусы — видно
           </text>
         </g>
         <g opacity={milk} transform={`translate(${(1 - milk) * 40} 0)`}>
-          <rect x={1540} y={560} width={340} height={70} fill={t.beer} />
+          <rect x={1500} y={560} width={340} height={70} fill={t.beer} />
           <text
-            x={1556}
+            x={1516}
             y={607}
             fontFamily={t.body}
             fontWeight={900}
-            fontSize={36}
+            fontSize={32}
             fill={t.ink}
           >
             молочка — удобно
@@ -652,30 +884,17 @@ export const Supplier: React.FC<SceneProps> = ({ cue }) => {
         {[0, 1, 2, 3].map((r) => (
           <g key={r}>
             {Array.from({ length: 11 }, (_, k) => (
-              <rect
+              <Product
                 key={k}
-                x={130 + k * 66}
-                y={318 + r * 136}
-                width={54}
-                height={96}
-                fill={r === 1 ? t.diaper : PAL[((r * 2 + k) % 3) + 2]}
+                x={124 + k * 66}
+                y={420 + r * 136}
+                w={60}
+                h={104}
+                kind={r === 1 ? "box" : KINDS[(r * 2 + k) % 5]}
+                color={r === 1 ? t.diaper : PAL[((r * 2 + k) % 3) + 2]}
+                label={r === 1 ? "A" : undefined}
               />
             ))}
-            {r === 1 &&
-              Array.from({ length: 11 }, (_, k) => (
-                <text
-                  key={`l${k}`}
-                  x={157 + k * 66}
-                  y={374}
-                  textAnchor="middle"
-                  fontFamily={t.mono}
-                  fontWeight={700}
-                  fontSize={22}
-                  fill="#fff"
-                >
-                  A
-                </text>
-              ))}
             <rect
               x={110}
               y={420 + r * 136}
@@ -715,21 +934,21 @@ export const Supplier: React.FC<SceneProps> = ({ cue }) => {
             head="КОРЗИНА ПОКУПАТЕЛЯ"
           />
           <text
-            x={1520}
+            x={1500}
             y={560}
             fontFamily={t.body}
             fontWeight={800}
-            fontSize={34}
+            fontSize={30}
             fill={t.muted}
           >
             что ещё он положит —
           </text>
           <text
-            x={1520}
+            x={1500}
             y={604}
             fontFamily={t.body}
             fontWeight={800}
-            fontSize={34}
+            fontSize={30}
             fill={t.muted}
           >
             поставщику не важно
@@ -782,13 +1001,14 @@ export const Weak: React.FC<SceneProps> = ({ cue }) => {
         {[0, 1, 2].map((r) => (
           <g key={r}>
             {Array.from({ length: 7 }, (_, k) => (
-              <rect
+              <Product
                 key={k}
-                x={130 + k * 66}
-                y={318 + r * 136}
-                width={54}
-                height={96}
-                fill={PAL[(r + k) % 2 === 0 ? 3 : 5]}
+                x={124 + k * 66}
+                y={420 + r * 136}
+                w={60}
+                h={104}
+                kind={KINDS[(r + k * 2) % 5]}
+                color={PAL[(r + k) % 2 === 0 ? 3 : 5]}
               />
             ))}
             <rect
@@ -1093,20 +1313,50 @@ export const Grid: React.FC<SceneProps> = ({ cue }) => {
   );
 };
 
-// ---------- 9. Сайт ----------
+// ---------- 9. Сайт: оффер и призыв ----------
 export const Outro: React.FC<SceneProps> = () => {
   const t = useT();
   const frame = useCurrentFrame();
   const a = useSp(2, 14),
-    btn = useSp(20, 10);
+    offer = useSp(16, 13),
+    btn = useSp(30, 10);
   const nudge = Math.sin(frame / 5) * 10;
+  const item = (i: number) => ease(frame, 24 + i * 7, 40 + i * 7);
   return (
     <AbsoluteFill style={{ background: t.diaper }}>
+      <svg
+        width={1920}
+        height={1080}
+        style={{ position: "absolute", inset: 0, opacity: 0.12 }}
+      >
+        {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+          <line
+            key={`v${i}`}
+            x1={1150 + i * 100}
+            y1={0}
+            x2={1150 + i * 100}
+            y2={1080}
+            stroke="#fff"
+            strokeWidth={4}
+          />
+        ))}
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <line
+            key={`h${i}`}
+            x1={1100}
+            y1={140 + i * 160}
+            x2={1920}
+            y2={140 + i * 160}
+            stroke={t.beer}
+            strokeWidth={4}
+          />
+        ))}
+      </svg>
       <div
         style={{
           position: "absolute",
           left: 110,
-          top: 150,
+          top: 110,
           opacity: a,
           transform: `translateY(${(1 - a) * 30}px)`,
         }}
@@ -1115,7 +1365,7 @@ export const Outro: React.FC<SceneProps> = () => {
           style={{
             fontFamily: t.mono,
             fontWeight: 700,
-            fontSize: 30,
+            fontSize: 28,
             letterSpacing: "0.2em",
             color: t.beer,
           }}
@@ -1126,53 +1376,98 @@ export const Outro: React.FC<SceneProps> = () => {
           style={{
             fontFamily: t.display,
             fontWeight: 900,
-            fontSize: 120,
+            fontSize: 108,
             lineHeight: 1.02,
             letterSpacing: "-0.045em",
             color: "#fff",
-            marginTop: 20,
+            marginTop: 18,
           }}
         >
-          Как увидеть
-          <br />
-          горизонталь
+          Увидим горизонталь
           <br />
           вашего магазина
         </div>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          left: 110,
+          top: 430,
+          opacity: offer,
+          transform: `translateY(${(1 - offer) * 30}px)`,
+        }}
+      >
         <div
           style={{
-            marginTop: 50,
-            display: "flex",
-            alignItems: "center",
-            gap: 40,
+            display: "inline-block",
+            background: t.beer,
+            color: t.ink,
+            padding: "10px 24px",
+            fontFamily: t.body,
+            fontWeight: 900,
+            fontSize: 40,
           }}
         >
-          <div
-            style={{
-              background: t.beer,
-              color: t.ink,
-              padding: "18px 40px",
-              fontFamily: t.body,
-              fontWeight: 900,
-              fontSize: 56,
-              transform: `scale(${btn})`,
-              transformOrigin: "left center",
-            }}
-          >
-            analytic-pro.ru
-          </div>
-          <div
-            style={{
-              fontFamily: t.body,
-              fontWeight: 900,
-              fontSize: 48,
-              color: "#fff",
-              opacity: btn,
-              transform: `translateX(${nudge}px)`,
-            }}
-          >
-            ссылка в профиле →
-          </div>
+          Бесплатный экспресс-разбор
+        </div>
+        <div style={{ marginTop: 24 }}>
+          {[
+            "3 находки по вашим чекам",
+            "за 2 рабочих дня",
+            "только выгрузка чеков — без доступа к кассе",
+          ].map((x, i) => (
+            <div
+              key={x}
+              style={{
+                fontFamily: t.body,
+                fontWeight: 700,
+                fontSize: 38,
+                color: "#fff",
+                marginTop: 10,
+                opacity: item(i),
+                transform: `translateX(${(1 - item(i)) * -30}px)`,
+              }}
+            >
+              <span style={{ color: t.beer }}>✓</span> {x}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          left: 110,
+          top: 760,
+          display: "flex",
+          alignItems: "center",
+          gap: 36,
+        }}
+      >
+        <div
+          style={{
+            background: "#fff",
+            color: t.ink,
+            padding: "18px 40px",
+            fontFamily: t.body,
+            fontWeight: 900,
+            fontSize: 54,
+            transform: `scale(${btn})`,
+            transformOrigin: "left center",
+          }}
+        >
+          analytic-pro.ru
+        </div>
+        <div
+          style={{
+            fontFamily: t.body,
+            fontWeight: 900,
+            fontSize: 46,
+            color: "#fff",
+            opacity: btn,
+            transform: `translateX(${nudge}px)`,
+          }}
+        >
+          ссылка в профиле →
         </div>
       </div>
     </AbsoluteFill>
