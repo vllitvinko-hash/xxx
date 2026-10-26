@@ -13,6 +13,7 @@ import { WalmartCover } from "./Walmart/Cover";
 import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
 import { MAP_DURATION, MapCover, MapFilm } from "./Map3D/Film";
+import { MERCH_DURATION, MerchCover, MerchFilm } from "./Merch3D/Film";
 import { GRID_DURATION, GridCover, GridFilm } from "./Grid/Film";
 import { GRID2_DURATION, Grid2Cover, Grid2Film } from "./Grid2/Film";
 import { NoirCover, NoirFrameA, NoirFrameB } from "./WalmartN/Frames";
@@ -46,6 +47,21 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* «Вертикаль и горизонталь» в 3D */}
+      <Composition
+        id="Merch3D"
+        component={MerchFilm}
+        durationInFrames={MERCH_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Still
+        id="Merch3DCover"
+        component={MerchCover}
+        width={1920}
+        height={1080}
+      />
       {/* «Невидимая карта магазина» */}
       <Composition
         id="Map3D"

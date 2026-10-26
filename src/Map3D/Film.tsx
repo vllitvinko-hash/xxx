@@ -41,7 +41,7 @@ export const T = {
 };
 export const MAP_DURATION = T.dur;
 
-const C = {
+export const C = {
   bg: "#06190F",
   floor: "#0B2A1B",
   grid: "#16402B",
@@ -55,8 +55,8 @@ const C = {
   red: "#FF6B5A",
   ink: "#16181A",
 };
-const SANS = "Inter, sans-serif";
-const MONO = "'JetBrains Mono', monospace";
+export const SANS = "Inter, sans-serif";
+export const MONO = "'JetBrains Mono', monospace";
 
 // ---------- зал ----------
 type Shelf = { id: string; name: string; x: number; y: number };
@@ -530,15 +530,20 @@ const World: React.FC<{ f: number }> = ({ f }) => {
     </svg>
   );
 };
-const seg = (a: Proj, b: Proj) => ({ x1: a.x, y1: a.y, x2: b.x, y2: b.y });
+export const seg = (a: Proj, b: Proj) => ({
+  x1: a.x,
+  y1: a.y,
+  x2: b.x,
+  y2: b.y,
+});
 
 // ---------- экранный слой ----------
-const useSp = (at: number, damping = 15) => {
+export const useSp = (at: number, damping = 15) => {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   return spring({ frame: f - at, fps, config: { damping, mass: 0.8 } });
 };
-const Y: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+export const Y: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span
     style={{
       background: C.y,
@@ -552,7 +557,7 @@ const Y: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   </span>
 );
 // крупная фраза: слова проявляются по одному снизу
-const Words: React.FC<{
+export const Words: React.FC<{
   text: string;
   at: number;
   size?: number;
@@ -600,7 +605,7 @@ const Words: React.FC<{
           ...clamp,
           easing: Easing.out(Easing.cubic),
         });
-        const m = mark.includes(wd.replace(/[.,—]/g, ""));
+        const m = mark.includes(wd.replace(/[.,—:«»!?]/g, ""));
         return (
           <span
             key={i}
@@ -626,7 +631,7 @@ const Words: React.FC<{
     </div>
   );
 };
-const Label: React.FC<{
+export const Label: React.FC<{
   children: React.ReactNode;
   s: number;
   x: number;
