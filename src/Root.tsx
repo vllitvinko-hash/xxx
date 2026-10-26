@@ -12,6 +12,7 @@ import { WALMART_DURATION, Walmart } from "./Walmart/Walmart";
 import { WalmartCover } from "./Walmart/Cover";
 import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
+import { MAP_DURATION, MapCover, MapFilm } from "./Map3D/Film";
 import { GRID_DURATION, GridCover, GridFilm } from "./Grid/Film";
 import { GRID2_DURATION, Grid2Cover, Grid2Film } from "./Grid2/Film";
 import { NoirCover, NoirFrameA, NoirFrameB } from "./WalmartN/Frames";
@@ -45,6 +46,16 @@ import { STORY_DURATION, Story } from "./Story/Story";
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* «Невидимая карта магазина» */}
+      <Composition
+        id="Map3D"
+        component={MapFilm}
+        durationInFrames={MAP_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Still id="Map3DCover" component={MapCover} width={1920} height={1080} />
       <Composition
         id="Grid2"
         component={Grid2Film}
