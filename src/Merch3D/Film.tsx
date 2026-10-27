@@ -1234,7 +1234,7 @@ const Legend: React.FC = () => {
     </div>
   );
   return (
-    <div style={{ position: "absolute", left: 110, bottom: 70 }}>
+    <div style={{ position: "absolute", left: 110, top: 40 }}>
       {row("↕", "Вертикальный разрез", "МЕРЧАНДАЙЗИНГ: ПОЛКА ЗА ПОЛКОЙ", s1)}
       {row(
         "↔",
@@ -1455,24 +1455,26 @@ export const MerchCover: React.FC = () => (
     <AbsoluteFill
       style={{
         background:
-          "linear-gradient(90deg, rgba(6,25,15,0.97) 0%, rgba(6,25,15,0.88) 42%, rgba(6,25,15,0.15) 72%, rgba(6,25,15,0) 100%)",
+          "linear-gradient(90deg, rgba(6,25,15,0.97) 0%, rgba(6,25,15,0.9) 50%, rgba(6,25,15,0.2) 80%, rgba(6,25,15,0) 100%)",
       }}
     />
     <div
       style={{
         position: "absolute",
         left: 90,
-        top: 110,
+        top: 90,
         fontFamily: SANS,
         fontWeight: 900,
         textTransform: "uppercase",
         letterSpacing: "-0.045em",
-        lineHeight: 0.94,
+        lineHeight: 0.9,
       }}
     >
-      <div style={{ fontSize: 150, color: C.w }}>Красиво</div>
-      <div style={{ fontSize: 150, color: C.y }}>≠</div>
-      <div style={{ fontSize: 150, color: C.w }}>прибыльно</div>
+      <div style={{ fontSize: 210, color: C.w }}>Слепые</div>
+      <div style={{ fontSize: 210, color: C.w }}>зоны</div>
+      <div style={{ fontSize: 118, color: C.y, marginTop: 14 }}>
+        мерчандайзинга
+      </div>
     </div>
     <div
       style={{
@@ -1489,7 +1491,7 @@ export const MerchCover: React.FC = () => (
         color: C.ink,
       }}
     >
-      что мерчандайзинг не видит
+      их видно только в чеках
     </div>
   </AbsoluteFill>
 );
@@ -1507,8 +1509,7 @@ const SFX: React.FC<{ at: number; src: string; v: number }> = ({
 
 export const MerchFilm: React.FC = () => {
   const f = useCurrentFrame();
-  const bottom =
-    f >= T.p1 && f < T.grid ? 1 : f >= T.horiz && f < T.both ? 0.0 : 0;
+  const bottom = f < T.end ? 1 : 0;
   const p3 = (s: number) => T.p3 + sec(s);
   return (
     <AbsoluteFill style={{ background: C.bg }}>
@@ -1525,16 +1526,16 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Полки идеальные. Ценники ровные."
         at={10}
-        size={80}
-        y={70}
+        size={64}
+        y={820}
         w={1700}
         out={sec(4.4)}
       />
       <Words
         text="А средний чек — тот же, что год назад."
         at={sec(2.3)}
-        size={56}
-        y={170}
+        size={50}
+        y={915}
         w={1700}
         mark={["тот", "же"]}
         out={sec(4.4)}
@@ -1548,18 +1549,18 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Вертикальный разрез данных: полка за полкой, категория за категорией."
         at={T.vert + 14}
-        size={66}
-        y={112}
-        w={1650}
+        size={50}
+        y={880}
+        w={1700}
         mark={["Вертикальный", "разрез"]}
         out={T.vert + sec(5.4)}
       />
       <Words
         text="Его вопрос — как выложить, чтобы товар было видно и удобно взять."
         at={T.vert + sec(5.6)}
-        size={66}
-        y={112}
-        w={1650}
+        size={50}
+        y={880}
+        w={1700}
         mark={["видно", "удобно", "взять"]}
         out={T.horiz}
       />
@@ -1571,17 +1572,17 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Продажи складываются в горизонтальном разрезе — через весь зал и всю корзину."
         at={T.horiz + 10}
-        size={62}
-        y={112}
-        w={1650}
+        size={50}
+        y={880}
+        w={1700}
         mark={["горизонтальном", "разрезе"]}
         out={T.horiz + sec(6.6)}
       />
       <Words
         text="Соус и макароны в разных концах. Эту связь видно только в чеке."
         at={T.horiz + sec(6.8)}
-        size={62}
-        y={112}
+        size={50}
+        y={880}
         w={1250}
         mark={["чеке"]}
         out={T.both}
@@ -1592,7 +1593,7 @@ export const MerchFilm: React.FC = () => {
         total="318 ₽"
         s={win(f, T.horiz + sec(7.4), T.both, 12)}
         x={1420}
-        y={560}
+        y={400}
         r={4}
       />
 
@@ -1600,16 +1601,16 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Мерчандайзинг видит вертикальный разрез. Чековая аналитика — горизонтальный."
         at={T.both + 8}
-        size={64}
-        y={80}
+        size={50}
+        y={880}
         w={1700}
         out={T.both + sec(3.6)}
       />
       <Words
         text="4 слепых пятна вертикального разреза"
         at={T.both + sec(3.8)}
-        size={80}
-        y={80}
+        size={66}
+        y={870}
         w={1700}
         mark={["слепых", "пятна"]}
         out={T.p1}
@@ -1622,8 +1623,8 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Выкладка повторяет товарную иерархию. А реальные пары — что чаще всего лежит в одной корзине — видно только в чеках."
         at={T.p1 + sec(1.2)}
-        size={46}
-        y={890}
+        size={50}
+        y={880}
         w={1700}
         mark={["чеках"]}
         out={T.p2}
@@ -1662,8 +1663,8 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Поставщик ставит туда свой товар — его продажи растут. Но вырос ли ваш чек и что взяли рядом — с полки не видно."
         at={T.p2 + sec(1.2)}
-        size={46}
-        y={890}
+        size={50}
+        y={880}
         w={1700}
         mark={["ваш", "чек"]}
         out={T.p2 + sec(7.6)}
@@ -1671,8 +1672,8 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Поставщик оптимизирует свой SKU, а не вашу корзину."
         at={T.p2 + sec(7.8)}
-        size={58}
-        y={880}
+        size={60}
+        y={870}
         w={1700}
         mark={["вашу", "корзину"]}
         out={T.p3}
@@ -1697,8 +1698,8 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="На полке соус продаётся хуже всех — и мерчандайзинг предлагает его убрать."
         at={p3(2.6)}
-        size={46}
-        y={890}
+        size={50}
+        y={880}
         w={1700}
         mark={["убрать"]}
         out={p3(P3_LINKS)}
@@ -1706,8 +1707,8 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Но в чеке с этим соусом часто лежат мясо, курица и макароны."
         at={p3(P3_LINKS + 0.2)}
-        size={46}
-        y={890}
+        size={50}
+        y={880}
         w={1700}
         mark={["мясо", "курица", "макароны"]}
         out={p3(P3_CUT)}
@@ -1715,7 +1716,7 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Убрали соус — потеряли часть чеков, где он был связкой."
         at={p3(P3_CUT + 0.2)}
-        size={62}
+        size={60}
         y={870}
         w={1700}
         mark={["потеряли", "связкой"]}
@@ -1783,8 +1784,8 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Йогурт А вырос на 40% — выкладка сработала?"
         at={T.p4 + sec(1.2)}
-        size={46}
-        y={890}
+        size={50}
+        y={880}
         w={1700}
         mark={["40%"]}
         out={T.p4 + sec(P4_DROP)}
@@ -1792,8 +1793,8 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Но йогурт Б упал на те же 40%."
         at={T.p4 + sec(P4_DROP + 0.2)}
-        size={46}
-        y={890}
+        size={50}
+        y={880}
         w={1700}
         mark={["упал"]}
         out={T.p4 + sec(P4_CHECKS)}
@@ -1801,8 +1802,8 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Покупатель не стал брать больше — он взял один йогурт вместо другого. Чек остался прежним."
         at={T.p4 + sec(P4_CHECKS + 0.2)}
-        size={46}
-        y={890}
+        size={50}
+        y={880}
         w={1700}
         mark={["Чек", "прежним"]}
         out={T.grid}
@@ -1812,17 +1813,17 @@ export const MerchFilm: React.FC = () => {
       <Words
         text="Мерчандайзинг отвечает, как товар лежит. Анализ чеков — что берут вместе, что увеличивает чек, а где один товар просто заменил другой."
         at={T.grid + 10}
-        size={56}
-        y={80}
+        size={50}
+        y={880}
         w={1700}
         mark={["лежит", "увеличивает", "заменил"]}
-        out={T.end}
+        out={T.grid + sec(5.6)}
       />
       <Words
         text="Вместе — полная картина."
         at={T.grid + sec(5.8)}
-        size={84}
-        y={300}
+        size={72}
+        y={870}
         w={1700}
         mark={["полная", "картина"]}
         out={T.end}
@@ -1840,31 +1841,28 @@ export const MerchFilm: React.FC = () => {
       />
       {[T.vert, T.horiz, T.both, T.p1, T.p2, T.p3, T.p4, T.grid, T.end].map(
         (b) => (
-          <SFX key={`w${b}`} at={b - 8} src="whoosh" v={0.45} />
+          <SFX key={`w${b}`} at={b - 12} src="tech-whoosh" v={0.3} />
         ),
       )}
-      <SFX at={sec(2.4)} src="printer" v={0.4} />
+      <SFX at={sec(2.4)} src="data" v={0.35} />
       <SFX at={sec(4.2)} src="impact" v={0.7} />
-      {GS.filter((_, i) => i % 2 === 0).map((gd) => (
-        <SFX
-          key={`t${gd.id}`}
-          at={T.vert + sec(1.6) + gd.k * 7}
-          src="tick"
-          v={0.25}
-        />
-      ))}
+      <SFX at={T.horiz + sec(6.4)} src="link" v={0.35} />
+      <SFX at={T.horiz + sec(7.4)} src="data" v={0.3} />
+      <SFX at={T.both + 10} src="link" v={0.25} />
+      <SFX at={T.p1 + sec(3)} src="link" v={0.25} />
+      <SFX at={p3(P3_LINKS)} src="link" v={0.3} />
+      <SFX at={T.p4 + sec(P4_CHECKS)} src="data" v={0.3} />
+      <SFX at={T.vert + sec(1.4)} src="beam-scan" v={0.35} />
       {PICKS.map(([id, pu]) => (
-        <SFX key={`pk${id}`} at={walkFrame(pu)} src="pop" v={0.5} />
+        <SFX key={`pk${id}`} at={walkFrame(pu)} src="blip" v={0.3} />
       ))}
-      <SFX at={T.horiz + sec(7.4)} src="printer" v={0.35} />
       {[T.p1, T.p2, T.p3, T.p4].map((b) => (
-        <SFX key={`c${b}`} at={b + 4} src="pop" v={0.4} />
+        <SFX key={`c${b}`} at={b + 4} src="blip" v={0.25} />
       ))}
       <SFX at={p3(P3_CUT - 1)} src="riser" v={0.5} />
       <SFX at={p3(P3_CUT)} src="impact" v={0.8} />
       <SFX at={T.p4 + sec(1.6)} src="riser" v={0.3} />
-      <SFX at={T.p4 + sec(P4_DROP)} src="pop" v={0.45} />
-      <SFX at={T.p4 + sec(P4_CHECKS)} src="printer" v={0.3} />
+      <SFX at={T.p4 + sec(P4_DROP)} src="blip" v={0.3} />
       <SFX at={T.grid + sec(1)} src="riser" v={0.4} />
       <SFX at={T.grid + sec(5.8)} src="impact" v={0.5} />
       <Sequence durationInFrames={1}>
