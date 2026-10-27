@@ -30,14 +30,20 @@ export const T = {
   vert: sec(7),
   horiz: sec(17),
   both: sec(29),
-  p1: sec(36),
-  p2: sec(45),
-  p3: sec(53),
-  p4: sec(63),
-  grid: sec(72),
-  end: sec(79),
-  dur: sec(86),
+  p1: sec(37),
+  p2: sec(48),
+  p3: sec(57),
+  p4: sec(69),
+  grid: sec(83),
+  end: sec(91),
+  dur: sec(98),
 };
+// глава 03: когда загораются связи соуса и когда его убирают (секунды от начала главы)
+const P3_LINKS = 5,
+  P3_CUT = 8.6;
+// глава 04: когда падает йогурт Б и когда появляются чеки
+const P4_DROP = 6,
+  P4_CHECKS = 9.6;
 export const MERCH_DURATION = T.dur;
 const RED = "#E5533F";
 
@@ -92,7 +98,12 @@ const g = (id: string) => GS.find((x) => x.id === id)!;
 // соус «выводят» в главе 03: стеллаж уходит в пол
 const sauceH = (f: number) =>
   1 -
-  interpolate(f, [T.p3 + sec(5.6), T.p3 + sec(6.4)], [0, 1], clamp) +
+  interpolate(
+    f,
+    [T.p3 + sec(P3_CUT), T.p3 + sec(P3_CUT + 0.8)],
+    [0, 1],
+    clamp,
+  ) +
   interpolate(f, [T.p4 - 10, T.p4], [0, 1], clamp);
 const heightOf = (id: string, f: number) =>
   id === "Соусы" ? Math.min(1, sauceH(f)) : 1;
@@ -106,17 +117,17 @@ const KEYS: Key[] = [
   [sec(16.4), 1150, 480, 60, -73, 30, 3250],
   [sec(19), 1150, 720, 0, -62, 50, 3500],
   [sec(28.4), 1150, 740, 0, -56, 54, 3450],
-  [sec(31), 1150, 760, 60, -100, 32, 3300],
-  [sec(35.4), 1150, 760, 60, -107, 30, 3300],
-  [sec(38), 880, 760, 0, -90, 60, 3500],
-  [sec(44.4), 880, 770, 0, -86, 62, 3450],
-  [sec(47.2), 260, 1205, 180, -90, 30, 900],
-  [sec(52.4), 200, 1205, 180, -81, 28, 820],
-  [sec(55.4), 1150, 700, 0, -72, 48, 2700],
-  [sec(62.4), 1100, 700, 0, -67, 50, 2650],
-  [sec(65.2), 2080, 705, 340, -90, 22, 1200],
-  [sec(71.4), 2050, 705, 340, -95, 20, 1150],
-  [sec(74.6), 1150, 760, 0, -90, 62, 3700],
+  [T.both + sec(2), 1150, 760, 60, -100, 32, 3300],
+  [T.p1 - sec(0.6), 1150, 760, 60, -108, 30, 3300],
+  [T.p1 + sec(2), 880, 760, 0, -90, 60, 3500],
+  [T.p2 - sec(0.6), 880, 770, 0, -85, 62, 3450],
+  [T.p2 + sec(2.2), 260, 1205, 180, -90, 30, 900],
+  [T.p3 - sec(0.6), 200, 1205, 180, -80, 28, 810],
+  [T.p3 + sec(2.4), 1150, 700, 0, -72, 48, 2700],
+  [T.p4 - sec(0.6), 1100, 700, 0, -66, 50, 2650],
+  [T.p4 + sec(2.2), 2080, 705, 340, -90, 22, 1200],
+  [T.grid - sec(0.6), 2040, 705, 340, -97, 20, 1130],
+  [T.grid + sec(2.6), 1150, 760, 0, -90, 62, 3700],
   [T.dur, 1150, 760, 0, -96, 68, 3500],
 ];
 const camAt = (f: number): Cam => {
@@ -212,7 +223,7 @@ const arcsAt = (f: number): Arc[] => {
   if (f >= T.p3 && f < T.p4) {
     const br = interpolate(
       f,
-      [T.p3 + sec(5.6), T.p3 + sec(6.2)],
+      [T.p3 + sec(P3_CUT), T.p3 + sec(P3_CUT + 0.6)],
       [0, 1],
       clamp,
     );
@@ -224,10 +235,15 @@ const arcsAt = (f: number): Arc[] => {
         col: br > 0 ? RED : C.y,
         op:
           1 -
-          interpolate(f, [T.p3 + sec(8), T.p3 + sec(9.4)], [0, 0.75], clamp),
+          interpolate(
+            f,
+            [T.p3 + sec(P3_CUT + 2), T.p3 + sec(P3_CUT + 3)],
+            [0, 0.75],
+            clamp,
+          ),
         prog: interpolate(
           f,
-          [T.p3 + sec(2.6) + i * 10, T.p3 + sec(2.6) + i * 10 + 20],
+          [T.p3 + sec(P3_LINKS) + i * 10, T.p3 + sec(P3_LINKS) + i * 10 + 20],
           [0, 1],
           clamp,
         ),
@@ -443,8 +459,8 @@ const World: React.FC<{ f: number }> = ({ f }) => {
     (a, b) => b.d - a.d,
   );
   const supplier = f >= T.p2 && f < T.p3;
-  const p3hot = f >= T.p3 + sec(2.6) && f < T.p3 + sec(5.6);
-  const p3lost = f >= T.p3 + sec(5.6) && f < T.p4;
+  const p3hot = f >= T.p3 + sec(P3_LINKS) && f < T.p3 + sec(P3_CUT);
+  const p3lost = f >= T.p3 + sec(P3_CUT) && f < T.p4;
   const shelves = order.map(({ gd }) => {
     const hk = heightOf(gd.id, f);
     if (hk <= 0.01) return null;
@@ -614,12 +630,17 @@ const World: React.FC<{ f: number }> = ({ f }) => {
   const bars: React.ReactNode[] = [];
   if (f >= T.p4 && f < T.grid) {
     const m = g("Молочка");
-    const s = interpolate(f, [T.p4 + sec(1.6), T.p4 + sec(3)], [0, 1], {
-      ...clamp,
-      easing: Easing.inOut(Easing.cubic),
-    });
+    const ease = { ...clamp, easing: Easing.inOut(Easing.cubic) };
+    // сначала растёт А, потом становится видно, что Б упал
+    const sa = interpolate(f, [T.p4 + sec(1.6), T.p4 + sec(3)], [0, 1], ease);
+    const sb = interpolate(
+      f,
+      [T.p4 + sec(P4_DROP), T.p4 + sec(P4_DROP + 1.2)],
+      [0, 1],
+      ease,
+    );
     const show = interpolate(f, [T.p4 + 10, T.p4 + 30], [0, 1], clamp);
-    const hs = [lerp(150, 210, s) * show, lerp(150, 90, s) * show];
+    const hs = [lerp(150, 210, sa) * show, lerp(150, 90, sb) * show];
     [-70, 70].forEach((dx, i) => {
       const fc = boxFaces(
         m.x + dx,
@@ -1061,7 +1082,7 @@ const Rules: React.FC = () => {
           color: C.dim,
         }}
       >
-        КАК ПРИНЯТО
+        ПО ТРАДИЦИИ
       </div>
       {rules.map((r, i) => (
         <div
@@ -1109,7 +1130,7 @@ const Rules: React.FC = () => {
 
 const LossCounter: React.FC = () => {
   const f = useCurrentFrame();
-  const at = T.p3 + sec(6.3);
+  const at = T.p3 + sec(P3_CUT + 0.7);
   const s = useSp(at, 12);
   const n = Math.round(
     interpolate(f, [at, at + 40], [0, 12], {
@@ -1531,15 +1552,15 @@ export const MerchFilm: React.FC = () => {
 
       {/* 17–29: горизонталь */}
       <Label s={win(f, T.horiz + 6, T.both, 10)} x={112} y={70}>
-        ↔ ПОКУПАТЕЛЬ
+        ↔ ПРОДАЖИ
       </Label>
       <Words
-        text="А покупатель ходит горизонтально — через весь зал."
+        text="А продажи формируются по горизонтали — через весь зал."
         at={T.horiz + 10}
         size={66}
         y={112}
         w={1650}
-        mark={["горизонтально"]}
+        mark={["по", "горизонтали"]}
         out={T.horiz + sec(6.6)}
       />
       <Words
@@ -1563,7 +1584,7 @@ export const MerchFilm: React.FC = () => {
 
       {/* 29–36: вместе */}
       <Words
-        text="Полку видно по вертикали. Покупателя — только по горизонтали."
+        text="Мерчендайзинг видит вертикаль. Анализ чеков — горизонталь."
         at={T.both + 8}
         size={64}
         y={80}
@@ -1571,21 +1592,21 @@ export const MerchFilm: React.FC = () => {
         out={T.both + sec(3.6)}
       />
       <Words
-        text="4 вещи, которые по вертикали не увидеть"
+        text="4 вещи, которые мерчендайзинг точно не увидит"
         at={T.both + sec(3.8)}
         size={76}
         y={80}
         w={1700}
-        mark={["не", "увидеть"]}
+        mark={["не", "увидит"]}
         out={T.p1}
       />
       <Legend />
 
       {/* 01 */}
-      <Chapter n="01" title="Не ваши покупатели" at={T.p1} out={T.p2} />
+      <Chapter n="01" title="Выкладка по традиции" at={T.p1} out={T.p2} />
       <Rules />
       <Words
-        text="Выкладывают «как принято». А что берут вместе именно ваши покупатели — видно только в ваших чеках."
+        text="Выкладку делают по сложившейся традиции. А что берут вместе именно ваши покупатели — видно только в ваших чеках."
         at={T.p1 + sec(1.2)}
         size={46}
         y={890}
@@ -1620,51 +1641,52 @@ export const MerchFilm: React.FC = () => {
         лучшее место — его товару
       </Tag3D>
       <Words
-        text="Поставщик ставит свой товар на лучшее место своей полки. Что ещё человек положит в корзину — его не волнует."
+        text="Поставщик ставит свой товар на лучшее место своей полки. О вашей продуктовой корзине он не думает."
         at={T.p2 + sec(1.2)}
         size={46}
         y={890}
         w={1700}
-        mark={["своей", "полки"]}
+        mark={["продуктовой", "корзине"]}
         out={T.p3}
       />
 
       {/* 03 */}
       <Chapter
         n="03"
-        title="Слабый по вертикали — сильный по горизонтали"
+        title="Слабый на полке — сильный в чеке"
         at={T.p3}
         out={T.p4}
       />
       <Tag3D
         at={[200, 250, SH]}
-        s={win(f, p3(0.8), p3(5.6), 10)}
+        s={win(f, p3(0.8), p3(P3_LINKS), 10)}
         bg={RED}
         color={C.w}
         dy={-120}
       >
-        9 место из 10 в категории
+        хуже всех на полке → убрать?
       </Tag3D>
       <Words
-        text="Соус — внизу своей категории. Кандидат на вывод."
+        text="На своей полке соус продаётся хуже всех — и мерчендайзинг предлагает его убрать."
         at={p3(1)}
         size={46}
         y={890}
         w={1700}
-        out={p3(2.6)}
+        mark={["убрать"]}
+        out={p3(P3_LINKS)}
       />
       <Words
-        text="Но с ним в чеке — мясо, курица и макароны."
-        at={p3(2.8)}
+        text="Но в чеке с соусом лежат мясо, курица и макароны."
+        at={p3(P3_LINKS + 0.2)}
         size={46}
         y={890}
         w={1700}
         mark={["мясо", "курица", "макароны"]}
-        out={p3(5.6)}
+        out={p3(P3_CUT)}
       />
       <Words
-        text="Убрали соус — и потеряли их."
-        at={p3(5.8)}
+        text="Убрали соус — потеряли и их."
+        at={p3(P3_CUT + 0.2)}
         size={62}
         y={870}
         w={1700}
@@ -1681,14 +1703,14 @@ export const MerchFilm: React.FC = () => {
           <>
             <Tag3D
               at={[m.x - 70, m.y, SH + 230]}
-              s={win(f, T.p4 + sec(3), T.p4 + sec(4.8))}
+              s={win(f, T.p4 + sec(3), T.p4 + sec(P4_CHECKS))}
               dy={-70}
             >
               йогурт А +40%
             </Tag3D>
             <Tag3D
               at={[m.x + 70, m.y, SH + 110]}
-              s={win(f, T.p4 + sec(3.3), T.p4 + sec(4.8))}
+              s={win(f, T.p4 + sec(P4_DROP + 0.6), T.p4 + sec(P4_CHECKS))}
               bg={RED}
               color={C.w}
               dy={-70}
@@ -1702,7 +1724,7 @@ export const MerchFilm: React.FC = () => {
         head="ДО"
         rows={["ЙОГУРТ Б", "ХЛЕБ", "СЫР"]}
         total="1 240 ₽"
-        s={win(f, T.p4 + sec(4.8), T.grid)}
+        s={win(f, T.p4 + sec(P4_CHECKS), T.grid)}
         x={560}
         y={330}
         r={-4}
@@ -1716,7 +1738,7 @@ export const MerchFilm: React.FC = () => {
           fontWeight: 900,
           fontSize: 130,
           color: C.y,
-          opacity: win(f, T.p4 + sec(5.4), T.grid),
+          opacity: win(f, T.p4 + sec(P4_CHECKS + 0.6), T.grid),
         }}
       >
         =
@@ -1725,36 +1747,54 @@ export const MerchFilm: React.FC = () => {
         head="ПОСЛЕ"
         rows={["ЙОГУРТ А", "ХЛЕБ", "СЫР"]}
         total="1 240 ₽"
-        s={win(f, T.p4 + sec(5.2), T.grid)}
+        s={win(f, T.p4 + sec(P4_CHECKS + 0.4), T.grid)}
         x={1140}
         y={330}
         r={3}
       />
       <Words
-        text="Йогурт А вырос на 40%. А чек — нет: его просто взяли вместо Б."
+        text="Йогурт А вырос на 40% — мерчендайзинг доволен: выкладка сработала."
         at={T.p4 + sec(1.2)}
         size={46}
         y={890}
         w={1700}
-        mark={["вместо", "Б"]}
+        mark={["40%"]}
+        out={T.p4 + sec(P4_DROP)}
+      />
+      <Words
+        text="Но йогурт Б упал на те же 40%."
+        at={T.p4 + sec(P4_DROP + 0.2)}
+        size={46}
+        y={890}
+        w={1700}
+        mark={["упал"]}
+        out={T.p4 + sec(P4_CHECKS)}
+      />
+      <Words
+        text="Покупатель не стал брать больше — он взял один йогурт вместо другого. Чек остался прежним."
+        at={T.p4 + sec(P4_CHECKS + 0.2)}
+        size={46}
+        y={890}
+        w={1700}
+        mark={["Чек", "прежним"]}
         out={T.grid}
       />
 
       {/* сетка */}
       <Words
-        text="Вертикаль — порядок на полке. Горизонталь — связи через весь зал."
+        text="Мерчендайзинг отвечает, как товар лежит. Анализ чеков — что берут вместе и сколько это приносит."
         at={T.grid + 10}
         size={60}
         y={80}
         w={1700}
-        mark={["Вертикаль", "Горизонталь"]}
+        mark={["лежит", "приносит"]}
         out={T.end}
       />
       <Words
         text="Вместе — полная картина."
-        at={T.grid + sec(3.4)}
+        at={T.grid + sec(4.4)}
         size={84}
-        y={250}
+        y={300}
         w={1700}
         mark={["полная", "картина"]}
         out={T.end}
@@ -1792,11 +1832,13 @@ export const MerchFilm: React.FC = () => {
       {[T.p1, T.p2, T.p3, T.p4].map((b) => (
         <SFX key={`c${b}`} at={b + 4} src="pop" v={0.4} />
       ))}
-      <SFX at={p3(4.6)} src="riser" v={0.5} />
-      <SFX at={p3(5.6)} src="impact" v={0.8} />
+      <SFX at={p3(P3_CUT - 1)} src="riser" v={0.5} />
+      <SFX at={p3(P3_CUT)} src="impact" v={0.8} />
       <SFX at={T.p4 + sec(1.6)} src="riser" v={0.3} />
+      <SFX at={T.p4 + sec(P4_DROP)} src="pop" v={0.45} />
+      <SFX at={T.p4 + sec(P4_CHECKS)} src="printer" v={0.3} />
       <SFX at={T.grid + sec(1)} src="riser" v={0.4} />
-      <SFX at={T.grid + sec(3.4)} src="impact" v={0.5} />
+      <SFX at={T.grid + sec(4.4)} src="impact" v={0.5} />
       <Sequence durationInFrames={1}>
         <MerchCover />
       </Sequence>
