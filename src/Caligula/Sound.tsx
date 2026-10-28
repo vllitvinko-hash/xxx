@@ -79,7 +79,7 @@ const speech = allLines();
 const musicVolume = (f: number) => {
   const t = f / 30;
   const talking = speech.some((p) => t > p.start - 0.15 && t < p.end + 0.15);
-  let v = talking ? 0.1 : 0.2;
+  let v = talking ? 0.18 : 0.32;
   const silenceFrom = at("finale", 3);
   const silenceTo = at("finale", 4) - 6;
   if (f >= silenceFrom - 10 && f < silenceTo) v *= interpolate(f, [silenceFrom - 10, silenceFrom], [1, 0], { extrapolateRight: "clamp" });
