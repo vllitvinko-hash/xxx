@@ -1,54 +1,43 @@
-# Remotion video
+# «Почему Калигула назначил коня сенатором» — ролик
 
-<p align="center">
-  <a href="https://github.com/remotion-dev/logo">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-dark.apng">
-      <img alt="Animated Remotion Logo" src="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-light.gif">
-    </picture>
-  </a>
-</p>
+Анимированный ролик (~92 с) по сценарию «Почему Калигула назначил коня сенатором», собранный на [Remotion](https://www.remotion.dev).
+Один проект даёт две версии:
 
-Welcome to your Remotion project!
+| Композиция | Формат | Для чего |
+|---|---|---|
+| `Caligula-16x9` | 1920×1080 | блок для длинного выпуска, без вшитых субтитров (есть `caligula.srt`) |
+| `Caligula-9x16` | 1080×1920 | клип для Shorts / Reels / TikTok, с субтитрами и хуком «Конь-сенатор — это фейк. Правда хуже» |
+| `Cover-16x9`, `Cover-9x16` | PNG | обложки |
 
-## Commands
+Готовые файлы лежат в `renders/`.
 
-**Install Dependencies**
+## Структура
+
+- `scripts/narration.json` — закадровый текст по сценам: `say` (что читает голос, числа прописью) и `sub` (как показывать в субтитрах).
+- `scripts/tts.py` — офлайн-озвучка голосом Piper `ru_RU-ruslan-medium` через sherpa-onnx. Для каждой фразы делает несколько дублей и оставляет тот, который лучше всего распознаёт русская ASR-модель GigaAM. Пишет `public/voice.wav` и тайминги фраз в `src/Caligula/timeline.json`; по ним синхронизирована вся анимация.
+- `scripts/sfx.py` — синтез фоновой музыки (пиццикато) и звуковых эффектов (перемотка, апгрейд, штамп, «тсс», петух…).
+- `src/Caligula/` — сцены, персонажи (Инцитат, Калигула, сенаторы, легионер, торговец с петухом, маленький Гай в сапожках), декорации и плашки. Сцены рисуются в координатах 1920×1080, вертикальная версия кадрирует центр той же сцены.
+
+## Команды
 
 ```console
 npm i
+npm run dev            # Remotion Studio, предпросмотр
+npm run render         # оба ролика, обложки и .srt в out/
 ```
 
-**Start Preview**
+Если Remotion не может скачать свой Chrome, укажите готовый: `REMOTION_BROWSER=/path/to/chrome-headless-shell npm run render`.
+
+Перегенерировать озвучку (нужны `pip install "sherpa-onnx<2"` и модели `vits-piper-ru_RU-ruslan-medium` и `sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24` из релизов [k2-fsa/sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx/releases) в одной папке):
 
 ```console
-npm run dev
+python3 scripts/tts.py /path/to/models
 ```
 
-**Render video**
+Чтобы заменить синтезированный голос живым: положите запись в `public/voice.wav` и поправьте `start`/`end` фраз в `src/Caligula/timeline.json`.
 
-```console
-npx remotion render
-```
+## Отличия от сценария
 
-**Upgrade Remotion**
-
-```console
-npx remotion upgrade
-```
-
-## Docs
-
-Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
-
-## Help
-
-We provide help on our [Discord server](https://discord.gg/6VzzNDwUwV).
-
-## Issues
-
-Found an issue with Remotion? [File an issue here](https://github.com/remotion-dev/remotion/issues/new).
-
-## License
-
-Note that for some entities a company license is needed. [Read the terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).
+- Хронометраж ~92 с вместо ~75: синтезированный голос читает медленнее; при ускорении заметно падала разборчивость.
+- «Спорить с Калигулой было вредно для здоровья» → «Спорить с императором…»: синтез ставил неверное ударение в «Калигулой».
+- Ценники в румтуре шуточные («Цена: дорого», «не спрашивай»), без выдуманных сумм.
