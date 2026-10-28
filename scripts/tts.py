@@ -112,7 +112,7 @@ for si, scene in enumerate(narration["scenes"]):
     start = t
     lines = []
     for line in scene["lines"]:
-        s = synth(line["say"])
+        s = synth(line.get("tts", line["say"]))
         ls = t
         add(s)
         lines.append({"text": line["sub"], "start": round(ls, 3), "end": round(t, 3)})
