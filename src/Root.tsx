@@ -14,6 +14,7 @@ import { CROSS_DURATION, Cross } from "./Cross/Cross";
 import { CrossCover } from "./Cross/Cover";
 import { MAP_DURATION, MapCover, MapFilm } from "./Map3D/Film";
 import { MERCH_DURATION, MerchCover, MerchFilm } from "./Merch3D/Film";
+import { MerchCover2 } from "./Merch3D/Cover2";
 import { GRID_DURATION, GridCover, GridFilm } from "./Grid/Film";
 import { GRID2_DURATION, Grid2Cover, Grid2Film } from "./Grid2/Film";
 import { NoirCover, NoirFrameA, NoirFrameB } from "./WalmartN/Frames";
@@ -59,6 +60,12 @@ export const RemotionRoot: React.FC = () => {
       <Still
         id="Merch3DCover"
         component={MerchCover}
+        width={1920}
+        height={1080}
+      />
+      <Still
+        id="Merch3DCover2"
+        component={MerchCover2}
         width={1920}
         height={1080}
       />
